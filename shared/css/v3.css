@@ -1,0 +1,90 @@
+/* V3: блоки по SEO-стратегии (отрасли, флагманские кейсы, доп. услуги, плашки у формы).
+   Подключается после site.css и v2.css, токены берёт оттуда. */
+
+/* ---------- Шапка: пять пунктов меню ---------- */
+@media (max-width: 1360px) and (min-width: 1101px) {
+  .v3 .header__inner { gap: 16px; }
+  .v3 .nav { gap: 2px; }
+  .v3 .nav a { padding: 8px 12px; }
+  .v3 .header__social { display: none; }
+}
+
+/* ---------- Доп. услуги ---------- */
+.more-services { margin-top: 110px; }
+.more-services__label { font: 500 24px/1.3 var(--font-head); }
+.more-services__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.mini { display: flex; flex-direction: column; gap: 14px; padding: 32px; border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); transition: border-color .2s; }
+.mini:hover { border-color: var(--blue-2); }
+.mini__title { font: 500 20px/1.25 var(--font-head); }
+.mini__text { color: var(--grey-300); }
+.mini__link, .industry__link { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 10px; font-weight: 600; color: var(--blue-2); transition: gap .2s; }
+.mini__link:hover, .industry__link:hover { gap: 12px; }
+.mini__link svg, .industry__link svg { width: 18px; height: 18px; }
+.mini__link { color: var(--white); }
+
+/* ---------- Отрасли ---------- */
+.industry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.industry { display: flex; flex-direction: column; min-height: 400px; padding: 32px; border-radius: var(--radius); background: var(--grey-50); transition: background-color .2s, color .2s; }
+.industry__icon { width: 44px; height: 44px; padding: 10px; border-radius: 50%; background: var(--blue); color: var(--white); }
+.industry__title { margin-top: 40px; font: 500 24px/1.25 var(--font-head); }
+.industry__tags { margin-top: 8px; font-size: 14px; font-weight: 500; color: var(--blue-3); }
+.industry__text { margin-top: 20px; color: var(--grey-600); }
+.industry:hover { background: var(--graphite); color: var(--white); }
+.industry:hover .industry__text { color: var(--grey-300); }
+.industry:hover .industry__tags, .industry:hover .industry__link { color: var(--white); }
+
+/* ---------- Флагманские кейсы ---------- */
+.flagships { padding-top: var(--section-y); }
+.flagship-grid { display: grid; gap: 16px; }
+.flagship { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--radius); background: var(--white); color: var(--graphite); overflow: hidden; }
+.flagship:nth-child(even) .flagship__img { order: 2; }
+.flagship__img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; }
+.flagship__body { display: flex; flex-direction: column; padding: 40px; }
+.flagship__meta { font-size: 14px; font-weight: 500; color: var(--blue-3); }
+.flagship__title { margin-top: 12px; font: 500 28px/1.2 var(--font-head); letter-spacing: -.01em; }
+.flagship__text { margin-top: 20px; color: var(--grey-600); }
+.flagship__facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 28px; }
+.flagship__facts li { padding: 8px 14px; border-radius: 100px; background: var(--grey-60); font-size: 14px; font-weight: 500; }
+.flagship__facts li:first-child { background: var(--blue); color: var(--white); }
+
+/* ---------- Плашки у формы ---------- */
+.contact__aside { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 728px; margin: 40px auto 0; text-align: left; }
+.aside-card { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--radius); background: var(--grey-50); }
+.aside-card__title { font: 500 18px/1.3 var(--font-head); }
+.aside-card__text { color: var(--grey-600); font-size: 15px; }
+.aside-card__soon { align-self: flex-start; margin-top: auto; padding: 6px 12px; border-radius: 100px; border: 1px dashed var(--grey-300); color: var(--grey-500); font-size: 13px; font-weight: 500; }
+.aside-card--dark { background: var(--graphite); color: var(--white); }
+.aside-card__btns { display: grid; gap: 8px; margin-top: auto; }
+.aside-card__btns .btn { width: 100%; height: 44px; }
+
+/* ---------- Футер: пять колонок ---------- */
+.v3:not(.inner-page) .footer__cols { grid-template-columns: repeat(5, 1fr); gap: 24px; }
+
+/* ======================= Адаптив ======================= */
+@media (max-width: 1100px) {
+  .more-services { margin-top: 80px; }
+  .more-services__grid, .industry-grid { grid-template-columns: 1fr 1fr; }
+  .industry:last-child, .mini:last-child { grid-column: 1 / -1; }
+  .industry { min-height: 0; }
+  .flagships { padding-bottom: var(--section-y); }
+  .flagship { grid-template-columns: 1fr; }
+  .flagship:nth-child(even) .flagship__img { order: 0; }
+  .flagship__img { height: auto; min-height: 0; aspect-ratio: 16 / 9; }
+  .v3:not(.inner-page) .footer__cols { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+}
+
+@media (max-width: 640px) {
+  .more-services { margin-top: 64px; }
+  .more-services__label { font-size: 20px; }
+  .more-services__grid, .industry-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+  .industry-grid { margin-top: 0; }
+  .mini, .industry { padding: 24px; }
+  .industry__title { margin-top: 24px; font-size: 20px; }
+  .flagship-grid { gap: 12px; }
+  .flagship__body { padding: 24px; }
+  .flagship__title { font-size: 21px; }
+  .flagship__text { font-size: 15px; }
+  .flagship__facts li { font-size: 13px; padding: 6px 12px; }
+  .contact__aside { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+  .aside-card { padding: 24px; }
+}

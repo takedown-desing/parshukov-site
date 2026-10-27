@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Вадим Паршуков · B2B-дизайн и разработка для производственных и экспортных компаний</title>
+  <meta name="description" content="Брендинг, веб-разработка, 3D-визуализация и упаковка для производственных и экспортных компаний. 10+ лет опыта, 13 официальных рекомендаций.">
+  <link rel="preload" href="../shared/fonts/Unbounded-Medium.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="../shared/fonts/Montserrat-Regular.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="../shared/fonts/fonts.css">
+  <link rel="stylesheet" href="../shared/css/site.css">
+</head>
+<body class="v1">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path fill="var(--icon-fg,#1F1F1F)" d="M7.2 15.6l15.4-6c.7-.3 1.4.2 1.1 1.4l-2.6 12.3c-.2.9-.7 1.1-1.5.7l-4-3-1.9 1.9c-.2.2-.4.4-.9.4l.3-4.1 7.4-6.7c.3-.3-.1-.4-.5-.2l-9.2 5.8-3.9-1.2c-.9-.3-.9-.9.3-1.3z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path fill="var(--icon-fg,#1F1F1F)" d="M16 7.5a8.4 8.4 0 0 0-7.2 12.8L7.6 24.5l4.3-1.1A8.4 8.4 0 1 0 16 7.5zm0 15.3c-1.3 0-2.6-.4-3.7-1l-.3-.2-2.5.7.7-2.5-.2-.3A6.9 6.9 0 1 1 16 22.8zm3.8-5.2c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.5.1l-.6.8c-.1.1-.2.2-.4.1a5.7 5.7 0 0 1-2.8-2.5c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.6-1.5c-.2-.4-.3-.3-.5-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1-.1-.1-.2-.2-.4-.3z"/></symbol>
+  <symbol id="i-max" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path fill="none" stroke="var(--icon-fg,#1F1F1F)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M10 21.5V11l6 7 6-7v10.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+</svg>
+
+<header class="header" id="top">
+  <div class="container header__inner">
+    <a class="logo" href="#top">Вадим Паршуков</a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#about">Обо мне</a>
+      <a href="#services" class="is-active">Услуги</a>
+      <a href="#clients">Кейсы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <div class="header__social">
+      <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc soc--dim"><svg><use href="#i-tg"/></svg></a>
+      <a href="https://wa.me/79537808623" target="_blank" rel="noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>
+      <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener" aria-label="MAX" class="soc soc--dim"><svg><use href="#i-max"/></svg></a>
+    </div>
+    <a class="btn btn--white header__cta" href="#contact">Обсудить проект</a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="Мобильная навигация">
+      <a href="#about">Обо мне</a>
+      <a href="#services">Услуги</a>
+      <a href="#clients">Кейсы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <div class="mobile-menu__social">
+      <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>
+      <a href="https://wa.me/79537808623" target="_blank" rel="noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>
+      <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener" aria-label="MAX" class="soc"><svg><use href="#i-max"/></svg></a>
+    </div>
+    <a class="btn btn--white" href="#contact">Обсудить проект</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__planet" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <h1 class="hero__title">Комплексный B2B-дизайн <br>и&nbsp;разработка для <br>производственных <br>и&nbsp;экспортных компаний</h1>
+        <p class="hero__sub">Брендинг, веб-разработка, 3D и упаковка от одного партнера <br class="d-only">с собственной командой специалистов</p>
+        <a class="btn btn--white hero__btn" href="#contact">Рассчитать проект</a>
+        <ul class="hero__chips">
+          <li>13 официальных рекомендаций от крупного бизнеса</li>
+          <li>Опыт работы в 6+ странах</li>
+          <li>Комплекс услуг без агентских наценок</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hero__media" aria-hidden="true">
+      <img class="hero__main" src="../shared/img/hero-main.webp" alt="" width="834" height="784" fetchpriority="high">
+      <img class="hero__small" src="../shared/img/hero-small.webp" alt="" width="336" height="416">
+    </div>
+    <div class="wordmark hero__wordmark" aria-hidden="true">PARSHUKOV</div>
+  </section>
+
+  <!-- ОБО МНЕ -->
+  <section class="section section--light about" id="about">
+    <div class="container">
+      <div class="about__grid">
+        <div class="about__left">
+          <p class="label">Обо мне</p>
+          <img class="about__photo" src="../shared/img/about-phone.webp" alt="Вадим Паршуков" width="524" height="640" loading="lazy">
+        </div>
+        <div class="about__right">
+          <h2 class="about__title">Вы работаете напрямую с одним партнером, а не проходите через цепочку менеджеров и&nbsp;контрагентов.</h2>
+          <p class="about__text"><span class="accent">Являюсь дизайнером и руководителем собственной команды,</span> которая специализируется на комплексном сопровождении бизнеса в направлениях дизайна и разработки.</p>
+        </div>
+      </div>
+      <ul class="about__band">
+        <li><b>B2B-экспертиза</b><span>FMCG · Machinery</span></li>
+        <li><b>Прозрачность</b><span>Без скрытых смет</span></li>
+        <li><b>Скорость</b><span>Гибкость в процессе</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- РЕЗУЛЬТАТЫ -->
+  <section class="section section--dark results" id="results">
+    <div class="glow glow--results" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head">
+        <p class="label label--light">Результаты</p>
+        <div>
+          <h2 class="h2">Результат работы <br>в цифрах</h2>
+          <p class="section-sub">Цифры, которые подтверждают опыт работы с бизнесом разного масштаба.</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><p class="stat__num">10+</p><p class="stat__title">Лет опыта работы</p><p class="stat__text">Практический опыт в дизайне, брендинге и digital-разработке.</p></div>
+        <div class="stat"><p class="stat__num">1440 +</p><p class="stat__title">Реализованных проектов</p><p class="stat__text">От точечных задач до комплексных проектов для бизнеса.</p></div>
+        <div class="stat"><p class="stat__num">15 +</p><p class="stat__title">Постоянных заказчиков</p><p class="stat__text">Компании, которые возвращаются за новыми задачами и развитием.</p></div>
+      </div>
+      <div class="countries">
+        <p class="countries__title"><svg class="countries__icon"><use href="#i-globe"/></svg>5 + стран</p>
+        <p class="countries__text">Проекты для компаний из России, СНГ, Европы, США и Азии.</p>
+        <ul class="countries__chips">
+          <li><img src="../shared/img/country-1.webp" alt="" width="106" height="106" loading="lazy"></li>
+          <li><img src="../shared/img/country-2.webp" alt="" width="106" height="106" loading="lazy"></li>
+          <li><img src="../shared/img/country-3.webp" alt="" width="106" height="106" loading="lazy"></li>
+          <li><img src="../shared/img/country-4.webp" alt="" width="106" height="106" loading="lazy"></li>
+          <li><img src="../shared/img/country-5.webp" alt="" width="106" height="106" loading="lazy"></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- УСЛУГИ -->
+  <section class="section section--dark services" id="services">
+    <div class="container">
+      <div class="section-head">
+        <p class="label label--light">Услуги</p>
+        <div>
+          <h2 class="h2">Направления <br>работы</h2>
+          <p class="section-sub">Думаем и создаем своей головой. Никаких шаблонов или обходных решений. Только профессиональные инструменты и индивидуальный подход.</p>
+        </div>
+      </div>
+
+      <article class="service">
+        <img class="service__img" src="../shared/img/service-1.webp" alt="Фирменный стиль" width="2400" height="1154" loading="lazy">
+        <div class="service__body">
+          <div class="service__main">
+            <h3 class="service__title">Фирменный стиль: от 60 тыс. руб</h3>
+            <p class="service__desc">Создание визуальной системы бренда, которая формирует узнаваемость компании и единый стиль во всех коммуникациях.</p>
+            <ul class="service__list">
+              <li>Дизайн упаковки и рекламных материалов</li>
+              <li>Оформление презентаций</li>
+              <li>Дизайн маркетинговых носителей</li>
+              <li>Подготовка бренд-гайдов</li>
+            </ul>
+          </div>
+          <div class="service__side">
+            <p class="service__h">Результат:</p>
+            <ul class="service__result">
+              <li>Анализ бизнеса и задач бренда</li>
+              <li>Разработка визуальной концепции</li>
+              <li>Логотип и ключевые элементы айдентики</li>
+              <li>Дизайн рекламных и корпоративных макетов</li>
+              <li>Гайдлайн по использованию фирменного стиля</li>
+            </ul>
+            <p class="service__h">Срок реализации:</p>
+            <p class="service__term">4–6 недель</p>
+          </div>
+        </div>
+        <div class="service__actions">
+          <a class="btn btn--outline" href="#contact">Обсудить проект</a>
+          <a class="btn btn--outline" href="#clients">Смотреть кейсы</a>
+        </div>
+        <p class="service__note">Указанные цены действуют в течение последних 4 месяцев до февраля 2027 года.</p>
+      </article>
+
+      <article class="service">
+        <img class="service__img" src="../shared/img/service-2.webp" alt="IT-разработка" width="2400" height="1154" loading="lazy">
+        <div class="service__body">
+          <div class="service__main">
+            <h3 class="service__title">IT-разработка: от 80 тыс. руб</h3>
+            <p class="service__desc">Проектирование и разработка цифровых продуктов для бизнеса&nbsp;— от корпоративных сайтов до сложных веб-сервисов.</p>
+            <ul class="service__list">
+              <li>Разработка корпоративных сайтов</li>
+              <li>Создание веб-сервисов и платформ</li>
+              <li>Разработка интерфейсов (UI/UX)</li>
+              <li>Интеграция с CRM и другими системами</li>
+            </ul>
+          </div>
+          <div class="service__side">
+            <p class="service__h">Результат:</p>
+            <ul class="service__result">
+              <li>Анализ задач и структуры продукта</li>
+              <li>Проектирование пользовательского опыта (UX)</li>
+              <li>Индивидуальный UI-дизайн</li>
+              <li>Разработка и запуск цифрового продукта</li>
+              <li>Адаптация под разные устройства</li>
+            </ul>
+            <p class="service__h">Срок реализации:</p>
+            <p class="service__term">6–8 недель</p>
+          </div>
+        </div>
+        <div class="service__actions">
+          <a class="btn btn--outline" href="#contact">Обсудить проект</a>
+          <a class="btn btn--outline" href="#clients">Смотреть кейсы</a>
+        </div>
+        <p class="service__note">Указанные цены действуют в течение последних 4 месяцев до февраля 2027 года.</p>
+      </article>
+
+      <article class="service">
+        <img class="service__img" src="../shared/img/service-3.webp" alt="3D-визуализация" width="2400" height="1154" loading="lazy">
+        <div class="service__body">
+          <div class="service__main">
+            <h3 class="service__title">3D-визуализация: от 30 тыс. руб.</h3>
+            <p class="service__desc">Создание реалистичных 3D-моделей и визуализаций для презентации продукции, технологий и пространств.</p>
+            <ul class="service__list">
+              <li>3D-моделирование оборудования</li>
+              <li>Визуализация производственных процессов</li>
+              <li>3D-визуализация помещений и интерьеров</li>
+              <li>Материалы для презентаций и маркетинга</li>
+            </ul>
+          </div>
+          <div class="service__side">
+            <p class="service__h">Результат:</p>
+            <ul class="service__result">
+              <li>Разработка визуальной концепции</li>
+              <li>Моделирование и текстурирование объектов</li>
+              <li>Фотореалистичная визуализация или анимация</li>
+              <li>Подготовка изображений для презентаций и маркетинга</li>
+              <li>Готовый визуальный контент высокого качества</li>
+            </ul>
+            <p class="service__h">Срок реализации:</p>
+            <p class="service__term">1–3 недели</p>
+          </div>
+        </div>
+        <div class="service__actions">
+          <a class="btn btn--outline" href="#contact">Обсудить проект</a>
+          <a class="btn btn--outline" href="#clients">Смотреть кейсы</a>
+        </div>
+        <p class="service__note">Указанные цены действуют в течение последних 4 месяцев до февраля 2027 года.</p>
+      </article>
+
+      <article class="service">
+        <img class="service__img" src="../shared/img/service-4.webp" alt="Комплексная работа под ключ" width="2400" height="1154" loading="lazy">
+        <div class="service__body">
+          <div class="service__main">
+            <h3 class="service__title">Комплексная работа под ключ: от 150 000 руб.</h3>
+            <p class="service__desc">Комплексная разработка бренда и продукта под ключ&nbsp;— от создания с нуля или ребрендинга до 3D-визуализации, дизайна упаковки и разработки сайта.</p>
+            <ul class="service__list">
+              <li>Разработка фирменного стиля</li>
+              <li>Дизайн упаковки и рекламных материалов</li>
+              <li>Визуальные материалы для каталогов</li>
+              <li>Разработка сайта</li>
+            </ul>
+          </div>
+          <div class="service__side">
+            <p class="service__h">Результат:</p>
+            <ul class="service__result">
+              <li>Единый визуальный образ бренда</li>
+              <li>3D-контент для презентации продукции</li>
+              <li>Готовые макеты упаковки и рекламных материалов</li>
+              <li>Сайт для презентации компании и продукции</li>
+              <li>Комплексное решение под ключ в едином стиле</li>
+            </ul>
+            <p class="service__h">Срок реализации:</p>
+            <p class="service__term">Определяется индивидуально</p>
+          </div>
+        </div>
+        <div class="service__actions">
+          <a class="btn btn--outline" href="#contact">Обсудить проект</a>
+          <a class="btn btn--outline" href="#clients">Смотреть кейсы</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- КЛИЕНТЫ -->
+  <section class="section section--blue clients" id="clients">
+    <div class="glow glow--white" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head">
+        <p class="label label--light">Клиенты</p>
+        <div>
+          <h2 class="h2">Горжусь опытом <br>работы</h2>
+          <p class="section-sub section-sub--light">Часть компаний, для которых были реализованы дизайн, digital и визуальные проекты.</p>
+        </div>
+      </div>
+      <ul class="logos">
+        <li><img src="../shared/img/client-01.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-02.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-03.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-04.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-05.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li class="logos__br" aria-hidden="true"></li>
+        <li><img src="../shared/img/client-06.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-07.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-08.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-09.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li class="logos__br" aria-hidden="true"></li>
+        <li><img src="../shared/img/client-10.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-11.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+        <li><img src="../shared/img/client-12.webp" alt="Логотип клиента" width="402" height="164" loading="lazy"></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section class="section section--light reviews" id="reviews">
+    <div class="reviews__shape" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head">
+        <p class="label">Отзывы</p>
+        <div>
+          <h2 class="h2 h2--dark">13 официальных <br>рекомендаций</h2>
+          <p class="section-sub section-sub--grey">Помимо личных отзывов в мессенджерах, для меня важна подтвержденная репутация. Поэтому здесь представлены официальные рекомендации от компаний. Список будет расширяться.</p>
+        </div>
+      </div>
+      <ul class="letters">
+        <li><img src="../shared/img/letter-1.webp" alt="Рекомендательное письмо" width="578" height="790" loading="lazy"></li>
+        <li><img src="../shared/img/letter-2.webp" alt="Рекомендательное письмо" width="578" height="790" loading="lazy"></li>
+        <li><img src="../shared/img/letter-3.webp" alt="Рекомендательное письмо" width="578" height="790" loading="lazy"></li>
+        <li><img src="../shared/img/letter-4.webp" alt="Рекомендательное письмо" width="578" height="790" loading="lazy"></li>
+      </ul>
+      <a class="btn btn--blue btn--wide" href="https://disk.yandex.ru/d/-JbMxaelxE9Atg" target="_blank" rel="noopener">Смотреть все рекомендации</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--dark faq" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <p class="label label--light">FAQ</p>
+        <div>
+          <h2 class="h2">Частые вопросы <br>клиентов</h2>
+          <p class="section-sub">Прозрачно отвечаю на вопросы о работе, документах и международных проектах.</p>
+        </div>
+      </div>
+      <ul class="faq__list">
+        <li class="faq__item"><p class="faq__q">В чем отличие от агентств или фрилансеров?</p><p class="faq__hint">Почему формат персонального партнера с командой под задачу часто эффективнее.</p><span class="faq__plus" aria-hidden="true"></span></li>
+        <li class="faq__item"><p class="faq__q">Как решаются юридические и бухгалтерские вопросы?</p><p class="faq__hint">Договор, предоплата, закрывающие документы, ЭДО и официальное сотрудничество.</p><span class="faq__plus" aria-hidden="true"></span></li>
+        <li class="faq__item"><p class="faq__q">Как строится ценообразование?</p><p class="faq__hint">От чего зависит стоимость проекта и как формируется итоговый бюджет.</p><span class="faq__plus" aria-hidden="true"></span></li>
+        <li class="faq__item"><p class="faq__q">Как начать сотрудничество?</p><p class="faq__hint">Как проходит первый этап работы, обсуждение задач и запуск проекта.</p><span class="faq__plus" aria-hidden="true"></span></li>
+        <li class="faq__item"><p class="faq__q">Как вы работаете с клиентами из других стран?</p><p class="faq__hint">Формат коммуникации, оплата и организация работы с международными компаниями.</p><span class="faq__plus" aria-hidden="true"></span></li>
+        <li class="faq__item"><p class="faq__q">Используете ли вы искусственный интеллект и шаблоны в работе?</p><p class="faq__hint">Как используем современные технологии, сохраняя профессиональный подход, ручную доработку и контроль качества.</p><span class="faq__plus" aria-hidden="true"></span></li>
+      </ul>
+      <a class="btn btn--white-blue btn--wide" href="#faq">Смотреть все частые вопросы</a>
+    </div>
+  </section>
+
+  <!-- КОМАНДА -->
+  <section class="section section--blue team" id="team">
+    <div class="glow glow--white" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head">
+        <p class="label label--light">Команда</p>
+        <div>
+          <h2 class="h2">Команда под <br>задачи вашего <br>бизнеса</h2>
+          <p class="section-sub section-sub--light">Дизайнеры, разработчики и профильные специалисты, которых подключаем под задачи бизнеса.</p>
+        </div>
+      </div>
+      <ul class="team__grid">
+        <li class="member"><img src="../shared/img/team-1.webp" alt="Вадим" width="330" height="330" loading="lazy"><p class="member__name">Вадим</p><p class="member__role">Руководитель проектов</p></li>
+        <li class="member"><img src="../shared/img/team-2.webp" alt="Дмитрий" width="330" height="330" loading="lazy"><p class="member__name">Дмитрий</p><p class="member__role">Руководитель отдела дизайна и&nbsp;3Д-графики</p></li>
+        <li class="member"><img src="../shared/img/team-3.webp" alt="Алексей" width="330" height="330" loading="lazy"><p class="member__name">Алексей</p><p class="member__role">Стратегический партнёр отдела UI/UX дизайна и разработки</p></li>
+        <li class="member"><img src="../shared/img/team-4.webp" alt="Алексей" width="330" height="330" loading="lazy"><p class="member__name">Алексей</p><p class="member__role">Отдел SEO</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ФОРМА -->
+  <section class="section section--light contact" id="contact">
+    <div class="container">
+      <div class="contact__cards" aria-hidden="true">
+        <img class="contact__card contact__card--left" src="../shared/img/contact-left.webp" alt="" width="640" height="460" loading="lazy">
+        <img class="contact__card contact__card--center" src="../shared/img/contact-center.webp" alt="" width="608" height="670" loading="lazy">
+        <img class="contact__card contact__card--right" src="../shared/img/contact-right.webp" alt="" width="640" height="384" loading="lazy">
+      </div>
+      <h2 class="contact__title">Давайте познакомимся <br>и обсудим ваш проект</h2>
+      <p class="contact__sub">Обсудим ваш будущий сайт, брендинг, дизайн или digital-задачи и подскажем лучший путь реализации.</p>
+
+      <form class="form" id="lead-form" novalidate>
+        <div class="form__row">
+          <label class="field"><span class="sr-only">Ваше имя</span><input type="text" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="100"></label>
+          <label class="field"><span class="sr-only">Название компании</span><input type="text" name="company" placeholder="Название компании" autocomplete="organization" maxlength="150"></label>
+        </div>
+        <div class="form__row">
+          <label class="field"><span class="sr-only">Email</span><input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="150"></label>
+          <label class="field"><span class="sr-only">Телефон для связи</span><input type="tel" name="phone" placeholder="* Телефон для связи" autocomplete="tel" required maxlength="30"></label>
+        </div>
+        <label class="field field--area"><span class="sr-only">Предварительная информация</span><textarea name="message" rows="3" placeholder="Предварительная информация" maxlength="2000"></textarea></label>
+
+        <fieldset class="seg">
+          <legend class="seg__label">Бюджет:</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="budget" value="от 30 тыс." checked><span>от 30 тыс.</span></label>
+            <label><input type="radio" name="budget" value="от 60 тыс."><span>от 60 тыс.</span></label>
+            <label><input type="radio" name="budget" value="от 100 тыс."><span>от 100 тыс.</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="seg">
+          <legend class="seg__label">Удобный способ связи:</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="channel" value="Telegram" checked><span>Telegram</span></label>
+            <label><input type="radio" name="channel" value="WhatsApp"><span>Whatsapp</span></label>
+            <label><input type="radio" name="channel" value="MAX"><span>МАКС</span></label>
+          </div>
+        </fieldset>
+
+        <div class="form__bottom">
+          <label class="check"><input type="checkbox" name="consent" required><span class="check__box"><svg><use href="#i-check"/></svg></span><span>Я согласен с <a href="#" class="link">политикой конфиденциальности</a></span></label>
+          <button class="btn btn--black form__submit" type="submit">Отправить заявку</button>
+        </div>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- РАБОТЫ -->
+  <section class="works" aria-label="Работы">
+    <ul class="works__strip">
+      <li><img src="../shared/img/work-1.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+      <li><img src="../shared/img/work-2.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+      <li><img src="../shared/img/work-3.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+      <li><img src="../shared/img/work-4.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+      <li><img src="../shared/img/work-5.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+      <li><img src="../shared/img/work-6.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+      <li><img src="../shared/img/work-7.webp" alt="Пример работы" width="576" height="634" loading="lazy"></li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container cta__inner">
+      <p class="cta__title">Брендинг, веб-разработка, 3D <br><span>Обсудим проект?</span></p>
+      <a class="btn btn--black" href="#contact">Связаться</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__cols">
+      <nav class="footer__col" aria-label="Навигация">
+        <p class="footer__h">Навигация</p>
+        <a href="#top">Главная</a><a href="#about">Обо мне</a><a href="#services">Услуги</a><a href="#clients">Кейсы</a><a href="#contact">Контакты</a>
+      </nav>
+      <nav class="footer__col" aria-label="Услуги">
+        <p class="footer__h">Услуги</p>
+        <a href="#services">Комплексные работы</a><a href="#services">Брендинг</a><a href="#services">Разработка</a><a href="#services">3D визуализация</a>
+      </nav>
+      <nav class="footer__col" aria-label="Контакты">
+        <p class="footer__h">Контакты</p>
+        <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener">Макс</a>
+        <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener">Телеграм</a>
+        <a href="https://wa.me/79537808623" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#contact">Email</a>
+      </nav>
+      <nav class="footer__col" aria-label="Соцсети">
+        <p class="footer__h">Соцсети</p>
+        <a href="https://www.linkedin.com/in/vadim-parshukov-b2021a212/en" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/vadim_parshukov/" target="_blank" rel="noopener">Instagram*</a>
+        <a href="#" aria-disabled="true">Threads*</a>
+      </nav>
+    </div>
+    <div class="wordmark footer__wordmark" aria-hidden="true">PARSHUKOV</div>
+    <div class="footer__meta">
+      <a class="footer__privacy" href="#">Политика конфиденциальности</a>
+      <p class="footer__disclaimer">*Meta Platforms Inc. признана экстремистской организацией, ее деятельность запрещена на территории Российской Федерации.</p>
+    </div>
+    <div class="footer__legal">
+      <p>ИНН: 540310719242 Работаем официально по договору, ЭДО и международным форматам сотрудничества.</p>
+      <p>© 2026 Вадим Паршуков. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../shared/js/site.js" defer></script>
+</body>
+</html>
