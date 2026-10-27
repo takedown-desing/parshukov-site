@@ -5,49 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <title>Сайт Вадима Паршукова · три прототипа</title>
+  <title>Сайт Вадима Паршукова: три прототипа</title>
   <link rel="stylesheet" href="shared/fonts/fonts.css">
   <link rel="stylesheet" href="shared/css/site.css">
   <style>
     .chooser { min-height: 100vh; padding: 80px 0; background: var(--black); color: var(--white); }
-    .chooser__title { font: 500 40px/1.15 var(--font-head); }
+    .chooser__title { font: 600 50px/62px var(--font-head); }
     .chooser__lead { margin-top: 16px; max-width: 640px; color: rgba(255,255,255,.75); font-size: 18px; }
     .chooser__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
     .chooser__card { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: 24px; background: var(--graphite); transition: background .2s; }
     .chooser__card:hover { background: var(--blue); }
-    .chooser__num { font: 500 14px/1 var(--font-head); color: rgba(255,255,255,.6); }
-    .chooser__name { font: 500 22px/1.25 var(--font-head); }
+    .chooser__num { font: 600 14px/1 var(--font-head); color: rgba(255,255,255,.6); }
+    .chooser__name { font: 600 22px/1.25 var(--font-head); }
     .chooser__card p { color: rgba(255,255,255,.8); font-size: 15px; line-height: 1.5; }
     .chooser__go { margin-top: auto; padding-top: 12px; font-weight: 600; }
+    .chooser__note { margin-top: 40px; color: rgba(255,255,255,.5); font-size: 14px; }
     @media (max-width: 900px) { .chooser__grid { grid-template-columns: 1fr; } }
-    @media (max-width: 640px) { .chooser { padding: 48px 0; } .chooser__title { font-size: 26px; } .chooser__lead { font-size: 16px; } }
+    @media (max-width: 640px) { .chooser { padding: 48px 0; } .chooser__title { font-size: 28px; line-height: 1.2; } .chooser__lead { font-size: 16px; } }
   </style>
 </head>
 <body>
   <main class="chooser">
     <div class="container">
       <h1 class="chooser__title">Сайт Вадима Паршукова:<br>три прототипа</h1>
-      <p class="chooser__lead">Одна дизайн-система, три подхода к содержанию. Все версии адаптированы под мобильные.</p>
+      <p class="chooser__lead">Одна дизайн-система, три подхода к содержанию. Все версии адаптированы под телефоны и планшеты.</p>
       <div class="chooser__grid">
         <a class="chooser__card" href="v1/index.html">
           <span class="chooser__num">V1</span>
           <span class="chooser__name">По макету</span>
           <p>Точная вёрстка макета из Figma: тексты, блоки и порядок секций как прислал Вадим.</p>
-          <span class="chooser__go">Открыть →</span>
+          <span class="chooser__go">Открыть&nbsp;→</span>
         </a>
         <a class="chooser__card" href="v2/index.html">
           <span class="chooser__num">V2</span>
           <span class="chooser__name">Макет + правки из видео</span>
           <p>Раскрывающийся FAQ с ответами, анимация карточек у формы, страницы кейсов и политики, исправленные тексты.</p>
-          <span class="chooser__go">Открыть →</span>
+          <span class="chooser__go">Открыть&nbsp;→</span>
         </a>
         <a class="chooser__card" href="v3/index.html">
           <span class="chooser__num">V3</span>
           <span class="chooser__name">По SEO-стратегии</span>
           <p>Тот же дизайн, структура и тексты главной по стратегии продвижения: услуги, отрасли, флагманские кейсы.</p>
-          <span class="chooser__go">Открыть →</span>
+          <span class="chooser__go">Открыть&nbsp;→</span>
         </a>
       </div>
+      <p class="chooser__note">Прототипы закрыты от индексации. Итоговая версия поедет на два домена: русский и англоязычный.</p>
     </div>
   </main>
 </body>
