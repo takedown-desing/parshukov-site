@@ -29,6 +29,48 @@
     if (open) open.focus();
   });
 
+  // Рекомендательные письма: открываются крупно поверх страницы
+  var openers = document.querySelectorAll(".letters__open");
+  if (openers.length) {
+    var box = document.createElement("div");
+    box.className = "lb";
+    box.hidden = true;
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Рекомендательное письмо");
+    box.innerHTML = '<button class="lb__close" type="button" aria-label="Закрыть">&#10005;</button><img class="lb__img" alt="">';
+    document.body.appendChild(box);
+    var boxImg = box.querySelector(".lb__img");
+    var boxClose = box.querySelector(".lb__close");
+    var lastOpener = null;
+    var closeBox = function () {
+      if (box.hidden) return;
+      box.hidden = true;
+      boxImg.removeAttribute("src");
+      document.documentElement.classList.remove("is-locked");
+      if (lastOpener) lastOpener.focus();
+    };
+    Array.prototype.forEach.call(openers, function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        lastOpener = a;
+        boxImg.src = a.getAttribute("href");
+        boxImg.alt = a.querySelector("img").alt;
+        box.hidden = false;
+        document.documentElement.classList.add("is-locked");
+        boxClose.focus();
+      });
+    });
+    boxClose.addEventListener("click", closeBox);
+    box.addEventListener("click", function (e) {
+      if (e.target !== boxImg) closeBox();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeBox();
+      if (e.key === "Tab" && !box.hidden) { e.preventDefault(); boxClose.focus(); }
+    });
+  }
+
   // Оглавление статьи: подсветка текущего раздела
   var toc = document.querySelector(".toc");
   if (!toc || !("IntersectionObserver" in window)) return;

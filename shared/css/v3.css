@@ -98,3 +98,27 @@
   .contact__aside { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
   .aside-card { padding: 24px; }
 }
+
+/* ---------- Иконки мессенджеров (SVG Вадима, 29.10) ---------- */
+.v3 .soc, .v3 .header__social .soc { color: var(--white); opacity: .5; transition: opacity .2s; }
+.v3 .soc:hover, .v3 .header__social .soc:hover { color: var(--white); opacity: 1; }
+
+/* ---------- Маркеры списков услуг: синий круг со звездой ---------- */
+.v3 .service__list li::before { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%230369B7'/%3E%3Cpath fill='white' d='M8 3.2l.54 4.26 4.26.54-4.26.54L8 12.8l-.54-4.26L3.2 8l4.26-.54z'/%3E%3C/svg%3E") center / 16px no-repeat; }
+
+/* ---------- Переключатели в формах: без слипания в Safari ----------
+   Safari плохо раскладывает grid на fieldset, поэтому подпись слева float, варианты справа. */
+.v3 .seg { display: block; }
+.v3 .seg::after { content: ""; display: table; clear: both; }
+.v3 .seg__label { float: left; width: 209px; line-height: 40px; }
+.v3 .seg__opts:not(.seg__opts--wrap) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; min-width: 0; }
+.v3 .seg__opts label { min-width: 0; }
+.v3 .seg__opts:not(.seg__opts--wrap) span { min-width: 0; padding: 0 12px; white-space: nowrap; }
+.v3 .calc__form .seg__label { width: 200px; }
+@media (max-width: 640px) {
+  .v3 .seg__label, .v3 .calc__form .seg__label { float: none; display: block; width: auto; line-height: 1.4; margin-bottom: 10px; }
+  .v3 .seg__opts:not(.seg__opts--wrap) span { padding: 0 6px; }
+}
+
+/* ---------- Мобильное меню: на низких экранах кнопка не сжимается, меню прокручивается ---------- */
+.v3 .mobile-menu > * { flex-shrink: 0; }

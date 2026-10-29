@@ -45,6 +45,35 @@
     });
   };
 
+  // Плашка с итогом на мобильных: видна, пока калькулятор на экране, а карточка итога ниже
+  var sum = root.querySelector(".calc__sum");
+  var bar = document.createElement("div");
+  bar.className = "calc-bar";
+  bar.hidden = true;
+  bar.innerHTML = '<p class="calc-bar__info"><b></b><span></span></p><button class="calc-bar__btn" type="button">Подробнее</button>';
+  document.body.appendChild(bar);
+  var barTotal = bar.querySelector("b");
+  var barTerm = bar.querySelector("span");
+  var narrow = window.matchMedia("(max-width: 1100px)");
+  var calcSeen = false, sumSeen = false;
+  var syncBar = function () {
+    bar.hidden = !(narrow.matches && calcSeen && !sumSeen && selected().length);
+  };
+  bar.querySelector("button").addEventListener("click", function () {
+    window.scrollTo({ top: sum.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
+  });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      calcSeen = entries[entries.length - 1].isIntersecting;
+      syncBar();
+    }).observe(root);
+    new IntersectionObserver(function (entries) {
+      sumSeen = entries[entries.length - 1].isIntersecting;
+      syncBar();
+    }, { rootMargin: "0px 0px -80px 0px" }).observe(sum);
+  }
+  if (narrow.addEventListener) narrow.addEventListener("change", syncBar);
+
   var update = function () {
     var picked = selected();
     var total = 0, lo = 0, hi = 0;
@@ -83,6 +112,10 @@
     outTotal.textContent = (picked.length ? "от " : "") + money(withDisc ? total * 0.8 : total);
     outOld.hidden = !withDisc;
     outOld.textContent = withDisc ? money(total) : "";
+
+    barTotal.textContent = outTotal.textContent;
+    barTerm.textContent = outTerm.textContent.replace("Срок: ", "");
+    syncBar();
   };
 
   var hint = function (i, error) {
