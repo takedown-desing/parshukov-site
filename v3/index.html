@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <title>Комплексный B2B-дизайн для производства и экспорта | Вадим Паршуков</title>
+  <link rel="canonical" href="https://takedown-desing.github.io/parshukov-site/v3/">
   <meta name="description" content="Брендинг, сайты, 3D и упаковка в одном проекте. 13 рекомендаций, опыт в 6+ странах. Вывожу бренды на рынки РФ, Китая и СНГ.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Вадим Паршуков: комплексный B2B-дизайн для производства и экспорта">
@@ -17,6 +18,7 @@
   <link rel="stylesheet" href="../shared/css/site.css">
   <link rel="stylesheet" href="../shared/css/v2.css">
   <link rel="stylesheet" href="../shared/css/v3.css">
+  <link rel="stylesheet" href="../shared/css/v3-pages.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -128,29 +130,32 @@
 
 <header class="header" id="top">
   <div class="container header__inner">
-    <a class="logo" href="#top">Вадим Паршуков</a>
+    <a class="logo" href="./">Вадим Паршуков</a>
     <nav class="nav" aria-label="Основная навигация">
-      <a href="#about">Обо мне</a>
-      <a href="#services">Услуги</a>
-      <a href="#industries">Отрасли</a>
-      <a href="#cases">Кейсы</a>
-      <a href="#contact">Контакты</a>
+      <a href="about/">Обо мне</a>
+      <div class="nav__drop"><button class="nav__drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Услуги<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="nav__menu"><a href="brand-identity/">Фирменный стиль</a><a href="web-design/">Сайты</a><a href="packaging/">Упаковка</a><a href="3d/">3D-визуализация</a><a href="print/">Полиграфия</a><a href="presentation/">Презентации</a><a href="infographic/">Инфографика</a><a href="motion/">Моушн-дизайн</a><a href="illustration/">Иллюстрация</a><a href="design-support/">Дизайн-поддержка</a></div></div>
+      <a href="industry/">Отрасли</a>
+      <a href="portfolio/">Портфолио</a>
+      <a href="blog/">Блог</a>
+      <a href="contact/">Контакты</a>
     </nav>
     <div class="header__social">
-      <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc soc--dim"><svg><use href="#i-tg"/></svg></a>
+      <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>
       <a href="https://wa.me/79537808623" target="_blank" rel="noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>
-      <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener" aria-label="MAX" class="soc soc--dim"><svg><use href="#i-max"/></svg></a>
+      <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener" aria-label="MAX" class="soc"><svg><use href="#i-max"/></svg></a>
     </div>
     <a class="btn btn--white header__cta" href="#contact">Обсудить проект</a>
     <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mobile-menu" hidden>
-    <nav aria-label="Мобильная навигация">
-      <a href="#about">Обо мне</a>
-      <a href="#services">Услуги</a>
-      <a href="#industries">Отрасли</a>
-      <a href="#cases">Кейсы</a>
-      <a href="#contact">Контакты</a>
+    <nav class="mnav" aria-label="Мобильная навигация">
+      <a href="about/">Обо мне</a>
+      <details class="mnav__group"><summary>Услуги</summary><div><a href="brand-identity/">Фирменный стиль</a><a href="web-design/">Сайты</a><a href="packaging/">Упаковка</a><a href="3d/">3D-визуализация</a><a href="print/">Полиграфия</a><a href="presentation/">Презентации</a><a href="infographic/">Инфографика</a><a href="motion/">Моушн-дизайн</a><a href="illustration/">Иллюстрация</a><a href="design-support/">Дизайн-поддержка</a></div></details>
+      <a href="industry/">Отрасли</a>
+      <a href="portfolio/">Портфолио</a>
+      <a href="blog/">Блог</a>
+      <a href="contact/">Контакты</a>
+      <a href="calculator/">Калькулятор</a>
     </nav>
     <div class="mobile-menu__social">
       <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>
@@ -598,6 +603,62 @@
     </div>
   </section>
 
+<!-- calc:start -->
+  <section class="section section--light sec calc-sec" id="calculator">
+    <div class="container">
+      <div class="calc-head"><p class="label">Калькулятор</p><div><h2 class="h2">Хотите сначала <br>рассчитать бюджет?</h2><p class="section-sub">Выберите необходимые услуги и параметры проекта, чтобы получить предварительную оценку стоимости и сроков реализации.</p></div></div>
+      <div class="calc" data-calc data-tg="https://t.me/Vadim_Parshukov" data-wa="https://wa.me/79537808623">
+      <div class="calc__main">
+        <div class="calc__top">
+          <p class="calc__count"><span data-calc-count>3 шага</span></p>
+          <ol class="calc__dots" aria-hidden="true"><li class="calc__dot is-active" data-dot="0"></li><li class="calc__dot" data-dot="1"></li><li class="calc__dot" data-dot="2"></li></ol>
+        </div>
+        <div class="calc__step" role="radiogroup" aria-labelledby="calc-t0" data-step="0"><p class="calc__step-title" id="calc-t0">Разработка фирменного стиля</p><p class="calc__hint">Выберите подходящее</p><div class="calc__opts"><label class="calc__opt"><input type="radio" name="calc-style" value="basic" data-price="30000" data-wlo="1" data-whi="2" data-inc="Разработка фирменного стиля (Базовый)"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Базовый</span><span class="calc__opt-text">Логотип, цветовая палитра, типографика и основные правила использования стиля.</span><span class="calc__opt-price">от 30 000 ₽</span></span></label><label class="calc__opt"><input type="radio" name="calc-style" value="full" data-price="60000" data-wlo="2" data-whi="3" data-inc="Разработка фирменного стиля (Полный)"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Полный</span><span class="calc__opt-text">Разработка визуальной концепции бренда, полноценная айдентика, рекламные материалы и гайдлайн.</span><span class="calc__opt-price">от 60 000 ₽</span></span></label></div></div><div class="calc__step" role="radiogroup" aria-labelledby="calc-t1" hidden data-step="1"><p class="calc__step-title" id="calc-t1">Разработка сайта</p><p class="calc__hint">Выберите подходящее</p><div class="calc__opts"><label class="calc__opt"><input type="radio" name="calc-site" value="code" data-price="150000" data-wlo="6" data-whi="10" data-inc="Разработка сайта на коде"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Разработка на коде</span><span class="calc__opt-text">Подходит для индивидуальных решений, крупных тяжёлых проектов и разработки сервисов.</span><span class="calc__opt-price">от 150 000 ₽</span></span></label><label class="calc__opt"><input type="radio" name="calc-site" value="tilda" data-price="80000" data-wlo="2" data-whi="3" data-inc="Сайт на Tilda"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Сайт на Tilda</span><span class="calc__opt-text">Подходит для большинства решений и позволяет вручную менять информацию на сайте.</span><span class="calc__opt-price">от 80 000 ₽</span></span></label><label class="calc__opt"><input type="radio" name="calc-site" value="ai" data-price="50000" data-wlo="1" data-whi="1" data-inc="Сайт с использованием ИИ"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Сайт с использованием ИИ</span><span class="calc__opt-text">Подходит для MVP и небольших сайтов.</span><span class="calc__opt-price">около 50 000 ₽</span></span></label></div></div><div class="calc__step" role="radiogroup" aria-labelledby="calc-t2" hidden data-step="2"><p class="calc__step-title" id="calc-t2">3D-визуализация и моделирование</p><p class="calc__hint">Выберите подходящее</p><div class="calc__opts"><label class="calc__opt"><input type="radio" name="calc-3d" value="product" data-price="30000" data-wlo="1" data-whi="1" data-inc="3D-визуализация продукта"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Продукт</span><span class="calc__opt-text">3D-модель и визуализация продукции или упаковки для презентаций, каталогов и маркетинга.</span><span class="calc__opt-price">от 30 000 ₽</span></span></label><label class="calc__opt"><input type="radio" name="calc-3d" value="equipment" data-price="60000" data-wlo="1" data-whi="2" data-inc="3D-моделирование оборудования"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Оборудование</span><span class="calc__opt-text">3D-моделирование техники, деталей и промышленного оборудования.</span><span class="calc__opt-price">от 60 000 ₽</span></span></label><label class="calc__opt"><input type="radio" name="calc-3d" value="space" data-price="100000" data-wlo="2" data-whi="3" data-inc="3D-визуализация пространства"><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Пространства</span><span class="calc__opt-text">3D-визуализация производственных помещений, коммерческих пространств и выставочных стендов.</span><span class="calc__opt-price">от 100 000 ₽</span></span></label></div></div>
+        <div class="calc__step calc__final" hidden data-step="3">
+          <p class="calc__step-title">Провести онлайн-встречу</p>
+          <p class="calc__hint">Обсудим задачи, уточним объём работ и оперативно запустим процесс.</p>
+          <form class="calc__form" id="calc-form" novalidate data-endpoint="">
+            <label class="hp" aria-hidden="true">Не заполняйте это поле <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            <div class="form__row">
+              <label class="field"><span class="sr-only">Телефон для связи</span><input type="tel" name="phone" placeholder="* Телефон для связи" autocomplete="tel" required maxlength="30"></label>
+              <label class="field"><span class="sr-only">Email</span><input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="150"></label>
+            </div>
+            <fieldset class="seg">
+              <legend class="seg__label">Удобный способ связи:</legend>
+              <div class="seg__opts">
+                <label><input type="radio" name="channel" value="Telegram" checked><span>Telegram</span></label>
+                <label><input type="radio" name="channel" value="WhatsApp"><span>WhatsApp</span></label>
+                <label><input type="radio" name="channel" value="MAX"><span>MAX</span></label>
+              </div>
+            </fieldset>
+            <label class="check"><input type="checkbox" name="consent" required><span class="check__box"><svg><use href="#i-check"/></svg></span><span>Я согласен с <a href="privacy-policy/" class="link" target="_blank">политикой конфиденциальности</a></span></label>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="calc__bottom">
+        <div class="calc__skip" data-skip="0"><label class="calc__opt calc__opt--skip"><input type="radio" name="calc-style" value="none" data-price="0" data-wlo="0" data-whi="0" data-inc=""><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Уже есть или не нужен</span></span></label></div><div class="calc__skip" hidden data-skip="1"><label class="calc__opt calc__opt--skip"><input type="radio" name="calc-site" value="none" data-price="0" data-wlo="0" data-whi="0" data-inc=""><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">Сайт не нужен</span></span></label></div><div class="calc__skip" hidden data-skip="2"><label class="calc__opt calc__opt--skip"><input type="radio" name="calc-3d" value="none" data-price="0" data-wlo="0" data-whi="0" data-inc=""><span class="calc__radio" aria-hidden="true"></span><span class="calc__opt-body"><span class="calc__opt-title">3D не нужно</span></span></label></div>
+        <div class="calc__nav">
+          <button class="btn btn--line calc__back" type="button" data-calc-back hidden>Назад</button>
+          <button class="btn btn--line calc__next" type="button" data-calc-next>Следующий шаг</button>
+          <button class="btn btn--blue calc__send" type="submit" form="calc-form" data-calc-send hidden>Отправить заявку</button>
+        </div>
+        </div>
+      </div>
+      <aside class="calc__sum" aria-live="polite">
+                <p class="calc__total"><span data-calc-total>0 ₽</span> <s class="calc__old" data-calc-old hidden></s></p>
+        <p class="calc__term" data-calc-term>Выберите услуги, и здесь появится срок</p>
+        <div class="calc__inc"><p class="calc__sum-h">Включено:</p><ul data-calc-inc><li class="is-empty">Пока ничего не выбрано</li></ul></div>
+        <div class="calc__pay"><p class="calc__sum-h">Оплата:</p><p data-calc-pay>50% предоплата</p>
+          <label class="calc__disc"><input type="checkbox" data-calc-disc><span class="calc__radio" aria-hidden="true"></span><span>Готов рассмотреть скидку 20%<small>* Предоплата составит 80%</small></span></label>
+        </div>
+        <button class="btn btn--blue calc__meet" type="button" data-calc-meet>Назначить встречу</button>
+        <p class="calc__note">Это предварительный расчёт. Итоговая стоимость зависит от объёма и сложности работ.</p>
+      </aside>
+    </div>
+    </div>
+  </section>
+  <!-- calc:end -->
+
   <!-- ФОРМА -->
   <section class="section section--light contact" id="contact">
     <div class="container">
@@ -639,7 +700,7 @@
         </fieldset>
 
         <div class="form__bottom">
-          <label class="check"><input type="checkbox" name="consent" required><span class="check__box"><svg><use href="#i-check"/></svg></span><span>Я согласен с <a href="privacy.html" class="link" target="_blank">политикой конфиденциальности</a></span></label>
+          <label class="check"><input type="checkbox" name="consent" required><span class="check__box"><svg><use href="#i-check"/></svg></span><span>Я согласен с <a href="privacy-policy/" class="link" target="_blank">политикой конфиденциальности</a></span></label>
           <button class="btn btn--black form__submit" type="submit">Отправить заявку</button>
         </div>
         <p class="form__status" role="status" aria-live="polite"></p>
@@ -647,9 +708,9 @@
 
       <div class="contact__aside">
         <div class="aside-card">
-          <p class="aside-card__title">Хотите сначала прикинуть бюджет?</p>
-          <p class="aside-card__text">Скоро здесь появится калькулятор: выбираете фирменный стиль, сайт и 3D и сразу видите предварительную стоимость, сроки и условия оплаты.</p>
-          <span class="aside-card__soon">Калькулятор готовится</span>
+          <p class="aside-card__title">Хотите описать задачу подробнее?</p>
+          <p class="aside-card__text">Заполните бриф: компания, продукт, рынки, сроки и примеры, которые нравятся. Так первая встреча пройдёт предметно.</p>
+          <a class="btn btn--blue" href="brief/">Заполнить бриф</a>
         </div>
         <div class="aside-card aside-card--dark">
           <p class="aside-card__title">Или напишите сразу</p>
@@ -677,21 +738,22 @@
     <div class="footer__cols">
       <nav class="footer__col" aria-label="Навигация">
         <p class="footer__h">Навигация</p>
-        <a href="#top">Главная</a><a href="#about">Обо мне</a><a href="#services">Услуги</a><a href="#industries">Отрасли</a><a href="#cases">Кейсы</a><a href="#reviews">Рекомендации</a><a href="#contact">Контакты</a>
+        <a href="./">Главная</a><a href="about/">Обо мне</a><a href="portfolio/">Портфолио</a><a href="reviews/">Отзывы</a><a href="process/">Как я работаю</a><a href="blog/">Блог</a><a href="contact/">Контакты</a>
       </nav>
       <nav class="footer__col" aria-label="Услуги">
         <p class="footer__h">Услуги</p>
-        <a href="#services">Комплексные работы</a><a href="#services">Фирменный стиль</a><a href="#services">Сайты и разработка</a><a href="#services">3D-визуализация</a><a href="#services">Упаковка</a><a href="#services">Презентации</a><a href="#services">Инфографика</a>
+        <a href="brand-identity/">Фирменный стиль</a><a href="web-design/">Сайты и разработка</a><a href="3d/">3D-визуализация</a><a href="packaging/">Упаковка</a><a href="presentation/">Презентации</a><a href="infographic/">Инфографика</a><a href="calculator/">Калькулятор</a>
       </nav>
       <nav class="footer__col" aria-label="Отрасли">
         <p class="footer__h">Отрасли</p>
-        <a href="#industries">Производство</a><a href="#industries">Экспорт</a><a href="#industries">B2B</a><a href="#industries">Стартапы</a>
+        <a href="industry/manufacturing/">Производство</a><a href="industry/export/">Экспорт</a><a href="industry/b2b/">B2B</a><a href="industry/startup/">Стартапы</a><a href="industry/agritech/">Агротех</a>
       </nav>
       <nav class="footer__col" aria-label="Контакты">
         <p class="footer__h">Контакты</p>
         <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener">Макс</a>
         <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener">Телеграм</a>
         <a href="https://wa.me/79537808623" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="brief/">Заполнить бриф</a>
       </nav>
       <nav class="footer__col" aria-label="Соцсети">
         <p class="footer__h">Соцсети</p>
@@ -701,7 +763,7 @@
       </nav>
     </div>
     <div class="footer__meta">
-      <a class="footer__privacy" href="privacy.html">Политика конфиденциальности</a>
+      <p class="footer__docs"><a class="footer__privacy" href="privacy-policy/">Политика конфиденциальности</a><a class="footer__privacy" href="terms-of-service/">Пользовательское соглашение</a><a class="footer__privacy" href="sitemap/">Карта сайта</a></p>
       <p class="footer__disclaimer">*Meta Platforms Inc. признана экстремистской организацией, её деятельность запрещена на территории Российской Федерации.</p>
     </div>
     <div class="wordmark footer__wordmark" aria-hidden="true">PARSHUKOV</div>
@@ -713,5 +775,7 @@
 </footer>
 
 <script src="../shared/js/site.js" defer></script>
+<script src="../shared/js/v3-pages.js" defer></script>
+<script src="../shared/js/calculator.js" defer></script>
 </body>
 </html>

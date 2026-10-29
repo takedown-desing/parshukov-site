@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+  <title>Figma для дизайнера: гид по инструментам и связке с Tilda</title>
+  <meta name="description" content="Гид по Figma для веб-дизайнера и маркетолога: что это, базовые инструменты, компоненты и Auto Layout, прототипы и как готовить макет для сборки на Tilda.">
+  <link rel="canonical" href="https://takedown-desing.github.io/parshukov-site/v3/blog/figma-dlya-dizaynera/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Figma для дизайнера: инструменты, прототипы и макеты для Tilda">
+  <meta property="og:description" content="Гид по Figma для веб-дизайнера и маркетолога: что это, базовые инструменты, компоненты и Auto Layout, прототипы и как готовить макет для сборки на Tilda.">
+  <meta property="og:url" content="https://takedown-desing.github.io/parshukov-site/v3/blog/figma-dlya-dizaynera/">
+  <meta property="og:image" content="https://takedown-desing.github.io/parshukov-site/shared/img/hero-main.webp">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="Вадим Паршуков">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="../../../shared/fonts/Unbounded-SemiBold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="../../../shared/fonts/Montserrat-Medium.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="../../../shared/fonts/fonts.css">
+  <link rel="stylesheet" href="../../../shared/css/site.css">
+  <link rel="stylesheet" href="../../../shared/css/v2.css">
+  <link rel="stylesheet" href="../../../shared/css/v3.css">
+  <link rel="stylesheet" href="../../../shared/css/v3-pages.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://takedown-desing.github.io/parshukov-site/v3/"}, {"@type": "ListItem", "position": 2, "name": "Блог", "item": "https://takedown-desing.github.io/parshukov-site/v3/blog/"}, {"@type": "ListItem", "position": 3, "name": "Figma для дизайнера", "item": "https://takedown-desing.github.io/parshukov-site/v3/blog/figma-dlya-dizaynera/"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "name": "Figma для дизайнера: инструменты, прототипы и макеты для Tilda", "description": "Гид по Figma для веб-дизайнера и маркетолога: что это, базовые инструменты, компоненты и Auto Layout, прототипы и как готовить макет для сборки на Tilda.", "url": "https://takedown-desing.github.io/parshukov-site/v3/blog/figma-dlya-dizaynera/", "inLanguage": "ru", "@type": "BlogPosting", "headline": "Figma для дизайнера: инструменты, прототипы и макеты для Tilda", "author": {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": "Графический и индустриальный дизайнер", "url": "https://takedown-desing.github.io/parshukov-site/v3/about/", "sameAs": ["https://www.behance.net/vadimporsh", "https://www.linkedin.com/in/vadim-parshukov-b2021a212/en", "https://t.me/Vadim_Parshukov"]}, "datePublished": "2026-10-29", "dateModified": "2026-10-29", "mainEntityOfPage": "https://takedown-desing.github.io/parshukov-site/v3/blog/figma-dlya-dizaynera/", "publisher": {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": "Графический и индустриальный дизайнер", "url": "https://takedown-desing.github.io/parshukov-site/v3/about/", "sameAs": ["https://www.behance.net/vadimporsh", "https://www.linkedin.com/in/vadim-parshukov-b2021a212/en", "https://t.me/Vadim_Parshukov"]}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Что такое FigJam?", "acceptedAnswer": {"@type": "Answer", "text": "Это онлайн-доска от создателей Figma для мозговых штурмов, схем, стикеров и диаграмм. Удобна на ранних этапах: собрать требования к сайту, нарисовать карту страниц, обсудить сценарии."}}, {"@type": "Question", "name": "Можно ли сделать логотип в Figma?", "acceptedAnswer": {"@type": "Answer", "text": "Простой знак можно, в Figma есть перо и работа с векторными фигурами. Для сложного логотипа, упаковки и подготовки к печати удобнее векторный редактор вроде Illustrator."}}, {"@type": "Question", "name": "В чём разница между Figma и Tilda?", "acceptedAnswer": {"@type": "Answer", "text": "Figma это редактор для проектирования: в ней рисуют макет. Tilda это конструктор, на котором сайт работает в интернете. Обычно макет делают в Figma и потом собирают по нему сайт на Tilda."}}, {"@type": "Question", "name": "В какие форматы Figma экспортирует файлы?", "acceptedAnswer": {"@type": "Answer", "text": "PNG, JPG, SVG и PDF. Для сайта иконки выгружают в SVG, фото в JPG или современных сжатых форматах, презентации и документы в PDF."}}, {"@type": "Question", "name": "Что лучше для дизайна сайта: Figma или Photoshop?", "acceptedAnswer": {"@type": "Answer", "text": "Для макета сайта удобнее Figma: компоненты, адаптивные блоки, прототипы и передача в разработку. Photoshop остаётся инструментом для обработки фото и сложных коллажей."}}, {"@type": "Question", "name": "Нужна ли Figma, если сайт собирается на конструкторе?", "acceptedAnswer": {"@type": "Answer", "text": "Для простой страницы из стандартных блоков не обязательна. Для сайта с авторским дизайном макет экономит время: структуру и мобильную версию дешевле поправить в Figma, чем в собранном сайте."}}]}</script>
+</head>
+<body class="v2 v3 v3p v3p--article">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path fill="var(--icon-fg,#1F1F1F)" d="M7.2 15.6l15.4-6c.7-.3 1.4.2 1.1 1.4l-2.6 12.3c-.2.9-.7 1.1-1.5.7l-4-3-1.9 1.9c-.2.2-.4.4-.9.4l.3-4.1 7.4-6.700c.3-.3-.1-.4-.5-.2l-9.2 5.8-3.900-1.2c-.9-.3-.9-.9.3-1.300z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path fill="var(--icon-fg,#1F1F1F)" d="M16 7.5a8.4 8.4 0 0 0-7.2 12.8L7.6 24.5l4.3-1.1A8.4 8.4 0 1 0 16 7.5zm0 15.3c-1.3 0-2.6-.4-3.7-1l-.3-.2-2.5.7.7-2.5-.2-.3A6.9 6.9 0 1 1 16 22.8zm3.8-5.2c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.5.1l-.6.8c-.1.1-.2.2-.4.1a5.700 5.700 0 0 1-2.8-2.5c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.6-1.5c-.2-.4-.3-.3-.5-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1-.1-.1-.2-.2-.4-.3z"/></symbol>
+  <symbol id="i-max" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path fill="none" stroke="var(--icon-fg,#1F1F1F)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M10 21.5V11l6 7 6-7v10.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+  <symbol id="i-factory" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3 20V10l5 3V10l5 3V10l5 3V4h3v16H3zM7 17h2M12 17h2M17 17h1"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5v-9zM3 7.5l9 4.5 9-4.5M12 12v9"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 20h16M6 16l4-5 3 3 5-7M15 7h3v3"/></symbol>
+</svg>
+
+<header class="header" id="top">
+  <div class="container header__inner">
+    <a class="logo" href="../../">Вадим Паршуков</a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="../../about/">Обо мне</a>
+      <div class="nav__drop"><button class="nav__drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Услуги<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="nav__menu"><a href="../../brand-identity/">Фирменный стиль</a><a href="../../web-design/">Сайты</a><a href="../../packaging/">Упаковка</a><a href="../../3d/">3D-визуализация</a><a href="../../print/">Полиграфия</a><a href="../../presentation/">Презентации</a><a href="../../infographic/">Инфографика</a><a href="../../motion/">Моушн-дизайн</a><a href="../../illustration/">Иллюстрация</a><a href="../../design-support/">Дизайн-поддержка</a></div></div>
+      <a href="../../industry/">Отрасли</a>
+      <a href="../../portfolio/">Портфолио</a>
+      <a href="../../blog/" class=is-active>Блог</a>
+      <a href="../../contact/">Контакты</a>
+    </nav>
+    <div class="header__social">
+      <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>
+      <a href="https://wa.me/79537808623" target="_blank" rel="noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>
+      <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener" aria-label="MAX" class="soc"><svg><use href="#i-max"/></svg></a>
+    </div>
+    <a class="btn btn--white header__cta" href="../../contact/">Обсудить проект</a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="mnav" aria-label="Мобильная навигация">
+      <a href="../../about/">Обо мне</a>
+      <details class="mnav__group"><summary>Услуги</summary><div><a href="../../brand-identity/">Фирменный стиль</a><a href="../../web-design/">Сайты</a><a href="../../packaging/">Упаковка</a><a href="../../3d/">3D-визуализация</a><a href="../../print/">Полиграфия</a><a href="../../presentation/">Презентации</a><a href="../../infographic/">Инфографика</a><a href="../../motion/">Моушн-дизайн</a><a href="../../illustration/">Иллюстрация</a><a href="../../design-support/">Дизайн-поддержка</a></div></details>
+      <a href="../../industry/">Отрасли</a>
+      <a href="../../portfolio/">Портфолио</a>
+      <a href="../../blog/" class=is-active>Блог</a>
+      <a href="../../contact/">Контакты</a>
+      <a href="../../calculator/">Калькулятор</a>
+    </nav>
+    <div class="mobile-menu__social">
+      <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>
+      <a href="https://wa.me/79537808623" target="_blank" rel="noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>
+      <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener" aria-label="MAX" class="soc"><svg><use href="#i-max"/></svg></a>
+    </div>
+    <a class="btn btn--white" href="../../contact/">Обсудить проект</a>
+  </div>
+</header>
+
+<main>
+  <section class="phero">
+    <div class="hero__planet" aria-hidden="true"></div>
+    <div class="container phero__inner">
+      <nav class="crumbs" aria-label="Хлебные крошки"><ol><li><a href="../../">Главная</a></li><li><a href="../../blog/">Блог</a></li><li aria-current="page">Figma для дизайнера</li></ol></nav>
+      <div class="phero__grid">
+        <div class="phero__text">
+          <p class="label label--light">Инструменты</p>
+          <h1 class="phero__title">Figma для дизайнера: инструменты, прототипы и макеты для Tilda</h1>
+          <p class="phero__lead">Figma для дизайнера стала стандартом в работе над сайтами и интерфейсами. Разбираю, что в ней освоить первым, зачем нужны компоненты и Auto Layout и как подготовить макет, чтобы он без потерь собрался на Tilda.</p>
+          <p class="phero__meta"><time datetime="2026-10-29">29.10.2026</time><span>11 мин чтения</span><span>Вадим Паршуков</span></p>
+          <ul class="phero__chips"><li>Базовые инструменты</li><li>Компоненты</li><li>Макет для Tilda</li></ul>
+          
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  <section class="section section--light sec article"><div class="container article__grid"><div class="article__body"><div class="prose"><p>Figma нужна всем, кто проектирует сайты, приложения и интерфейсы. В ней рисуют макеты, собирают кликабельные прототипы, обсуждают правки с заказчиком и передают дизайн разработчику. Всё это в одном файле, который открывается в браузере.</p>
+<p>Статья написана для начинающего веб-дизайнера и для маркетолога, который хочет понимать, что происходит с его сайтом на этапе макета. Начну с основ, потом перейду к приёмам, которые отличают аккуратный рабочий файл от набора картинок, и закончу тем, как макет из Figma превращается в сайт на Tilda.</p></div><h2 class="h2a" id="s1">Что такое Figma: определение простыми словами</h2><div class="prose"><p>Figma это онлайн-редактор для дизайна интерфейсов. Она работает в браузере и в настольном приложении, а файлы хранятся в облаке. Ссылку на макет можно отправить коллеге или клиенту: он откроет её без установки программ, посмотрит экраны и оставит комментарий прямо на нужном месте.</p>
+<p>Отсюда главные отличия от классических редакторов:</p>
+<ul>
+<li><strong>Совместная работа.</strong> Несколько человек могут быть в файле одновременно и видят изменения друг друга.</li>
+<li><strong>История версий.</strong> Можно вернуться к любому сохранённому состоянию макета.</li>
+<li><strong>Компоненты.</strong> Кнопки, карточки и другие элементы собираются один раз и переиспользуются по всему проекту.</li>
+<li><strong>Прототипы.</strong> Экраны связываются переходами, и макет можно пролистать как настоящий сайт.</li>
+<li><strong>Передача в разработку.</strong> Разработчик видит размеры, отступы, цвета и может выгрузить изображения.</li>
+</ul></div><h2 class="h2a" id="s2">Зачем Figma дизайнеру: пять задач</h2><div class="prose"><h3>Дизайн интерфейсов</h3>
+<p>Сайты, личные кабинеты, мобильные приложения, панели управления. Figma создана именно для этого: сетки, адаптивные блоки, системы стилей. Подробнее о том, как устроена работа над интерфейсом, на странице <a href="../../web-design/ux-ui/">UX/UI-дизайна</a>.</p>
+<h3>Прототипы и сценарии</h3>
+<p>Прежде чем рисовать красиво, полезно проверить логику: куда нажимает посетитель, что видит после отправки формы, как находит нужный товар. Серый кликабельный прототип часто экономит больше времени, чем любой другой этап.</p>
+<h3>Макеты сайтов для сборки на конструкторе</h3>
+<p>Сайт на Tilda тоже начинается с макета. В Figma проще продумать структуру, сетку и мобильную версию, а уже потом переносить их в конструктор. Об этом подробно ниже.</p>
+<h3>Обсуждение с заказчиком</h3>
+<p>Комментарии прямо на макете заменяют длинные письма со скриншотами. Каждый вопрос привязан к конкретному месту, его можно отметить решённым.</p>
+<h3>Передача дизайна разработчику</h3>
+<p>Для сайтов на коде Figma служит источником правды: разработчик берёт оттуда размеры, шрифты, цвета и иконки. Чем аккуратнее устроен файл, тем меньше расхождений между макетом и готовым сайтом.</p></div><h2 class="h2a" id="s3">Figma или альтернативы</h2><div class="prose"><p>У Figma есть конкуренты, и для части задач другие программы подходят лучше.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Программа</th>
+<th>Для чего удобна</th>
+<th>Ограничения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Figma</td>
+<td>Сайты, интерфейсы, прототипы, совместная работа</td>
+<td>Нужен интернет для полноценной работы</td>
+</tr>
+<tr>
+<td>Sketch</td>
+<td>Интерфейсы</td>
+<td>Работает только на macOS</td>
+</tr>
+<tr>
+<td>Penpot</td>
+<td>Интерфейсы, открытый код</td>
+<td>Меньше готовых ресурсов и плагинов</td>
+</tr>
+<tr>
+<td>Photoshop</td>
+<td>Обработка фото, коллажи, мокапы</td>
+<td>Неудобен для интерфейсов и адаптива</td>
+</tr>
+<tr>
+<td>Illustrator</td>
+<td>Логотипы, иконки, упаковка, печать</td>
+<td>Не предназначен для макетов сайтов</td>
+</tr>
+</tbody>
+</table></div>
+<p>В реальной работе программы дополняют друг друга. Логотип и иконки рисуют в векторном редакторе, фото обрабатывают в Photoshop, а сайт собирают в Figma. О векторной части я подробно рассказываю в <a href="../../blog/adobe-illustrator-gid/">гиде по Adobe Illustrator</a>.</p></div><h2 class="h2a" id="s4">Базовые инструменты Figma: что освоить в первую очередь</h2><div class="prose"><p>Интерфейс Figma проще, чем кажется. Для старта хватит нескольких инструментов.</p>
+<h3>Фрейм (F)</h3>
+<p>Основа любого макета. Фрейм это экран, блок или отдельный элемент, внутри которого лежат другие объекты. Для сайта обычно создают фреймы под компьютер и телефон.</p>
+<h3>Фигуры и перо (R, O, P)</h3>
+<p>Прямоугольники, эллипсы и перо для собственных форм. Сложную графику, вроде логотипа, удобнее делать в векторном редакторе и импортировать как SVG.</p>
+<h3>Текст (T)</h3>
+<p>Надписи и стили текста. Сразу заведите стили для заголовков, подзаголовков и основного текста: потом будет проще менять их во всём макете.</p>
+<h3>Сетки</h3>
+<p>Колонки и отступы задают ритм страницы. Сетка помогает выровнять блоки и сделать так, чтобы сайт выглядел собранным, а не случайным.</p>
+<h3>Ограничения (Constraints)</h3>
+<p>Определяют, как элемент ведёт себя при изменении размера фрейма: прилипает к краю, растягивается, остаётся по центру. Без них адаптивный макет не собрать.</p>
+<h3>Стили и переменные</h3>
+<p>Цвета, шрифты, тени и отступы, сохранённые как общие значения. Поменяли фирменный цвет в одном месте, и он обновился на всех экранах.</p></div><h2 class="h2a" id="s5">Компоненты и Auto Layout: основа профессиональной работы</h2><div class="prose"><p>Эти две функции отличают рабочий файл от набора нарисованных экранов.</p>
+<p><strong>Компонент</strong> это элемент, который создаётся один раз и используется много раз: кнопка, карточка товара, шапка сайта. Копии связаны с исходником. Если поменять скругление кнопки в компоненте, оно поменяется во всём проекте. У компонента могут быть варианты: например, кнопка обычная, при наведении и неактивная.</p>
+<p><strong>Auto Layout</strong> превращает фрейм в «резиновый» блок. Элементы внутри выстраиваются по горизонтали или вертикали с заданными отступами и сами раздвигаются при изменении текста. Длинное название товара не налезет на цену, а карточка вырастет по высоте.</p>
+<p>Вместе компоненты и Auto Layout позволяют быстро собирать новые страницы из готовых частей и держать дизайн в едином стиле. Для сайта на десятки страниц это экономит дни работы и снимает вопрос «почему эта кнопка не такая, как на главной».</p></div><h2 class="h2a" id="s6">Как устроить файл проекта, чтобы в нём не потеряться</h2><div class="prose"><p>Файл сайта живёт месяцами: в нём появляются новые страницы, правки, старые варианты. Чтобы через полгода в нём мог разобраться и автор, и другой дизайнер, полезно сразу разложить всё по страницам Figma:</p>
+<ul>
+<li><strong>Обложка</strong>: название проекта, дата, статус. Видна в списке файлов и сразу говорит, что внутри.</li>
+<li><strong>Структура</strong>: схема страниц сайта и серые прототипы.</li>
+<li><strong>Дизайн</strong>: согласованные экраны для компьютера и телефона, по порядку страниц сайта.</li>
+<li><strong>Компоненты и стили</strong>: кнопки, карточки, формы, цвета, шрифты.</li>
+<li><strong>Архив</strong>: отклонённые варианты и старые версии. Их не удаляют, но и не смешивают с актуальным дизайном.</li>
+</ul>
+<p>Внутри страниц помогают понятные названия фреймов: «Главная, компьютер», «Каталог, телефон», «Карточка товара». Заказчику так проще найти нужный экран по ссылке, а разработчику не гадать, какой из пяти вариантов финальный.</p></div><h2 class="h2a" id="s7">Типичные ошибки новичков в Figma</h2><div class="prose"><p>Большинство проблем в чужих файлах повторяются. Их легко избежать, если знать заранее:</p>
+<ol>
+<li><strong>Всё нарисовано без фреймов и Auto Layout.</strong> Макет выглядит нормально, пока не нужно поменять текст или ширину: тогда блоки приходится двигать руками.</li>
+<li><strong>Десятки оттенков одного цвета.</strong> Вместо трёх-четырёх фирменных цветов в файле двадцать похожих, потому что цвет каждый раз подбирали на глаз.</li>
+<li><strong>Случайные отступы.</strong> Где-то 17 пикселей, где-то 23. Сайт по такому макету выглядит неряшливо, даже если каждый блок по отдельности красив.</li>
+<li><strong>Нет мобильной версии.</strong> Дизайнер рисует только экран компьютера, и решения для телефона принимаются уже при сборке, наспех.</li>
+<li><strong>Слои без имён.</strong> «Rectangle 248» и «Group 91» превращают поиск нужного элемента в квест.</li>
+</ol>
+<p>Исправлять эти ошибки в готовом проекте дольше, чем не допускать их с первого экрана.</p></div><h2 class="h2a" id="s8">Плагины Figma: какие бывают и зачем нужны</h2><div class="prose"><p>Плагины расширяют возможности редактора. Их тысячи, но полезные укладываются в несколько групп:</p>
+<ul>
+<li><strong>иконки и иллюстрации</strong>: подключают библиотеки, чтобы не искать файлы по сайтам;</li>
+<li><strong>изображения</strong>: вставляют фото, удаляют фон, сжимают картинки;</li>
+<li><strong>доступность</strong>: проверяют контраст текста и фона;</li>
+<li><strong>тексты</strong>: заполняют макет правдоподобным содержанием вместо «рыбы»;</li>
+<li><strong>экспорт и перенос</strong>: передают макет в конструкторы сайтов и другие сервисы.</li>
+</ul>
+<p>Совет простой: ставьте плагин под конкретную задачу и удаляйте ненужные. Десятки установленных расширений замедляют работу и мешают найти то, что действительно нужно.</p></div><h2 class="h2a" id="s9">Как макет из Figma превращается в сайт на Tilda</h2><div class="prose"><p>Связка Figma и Tilda подходит для корпоративных сайтов, лендингов и каталогов, которые нужно запустить быстро и потом обновлять своими силами. Порядок работы такой:</p></div>
+      <div class="blk blk--steps"><ol class="steps"><li class="step"><span class="step__num">01</span><h3 class="step__title">Структура и прототип</h3><div class="step__text"><p>Сначала список страниц и блоков, потом серые схемы ключевых экранов. На этом этапе согласуем логику, а не цвета.</p></div></li><li class="step"><span class="step__num">02</span><h3 class="step__title">Дизайн под компьютер и телефон</h3><div class="step__text"><p>Рисую основные экраны в двух размерах. Мобильная версия продумывается сразу, а не после сборки.</p></div></li><li class="step"><span class="step__num">03</span><h3 class="step__title">Подготовка к переносу</h3><div class="step__text"><p>Каждый крупный блок оформляю отдельным фреймом, называю слои, выбираю шрифты, которые можно подключить на сайте, выгружаю изображения в нужном качестве.</p></div></li><li class="step"><span class="step__num">04</span><h3 class="step__title">Сборка в Zero Block</h3><div class="step__text"><p>Переношу блоки в Tilda. У конструктора есть импорт макета из Figma, но после него всё равно нужна ручная доводка отступов и поведения на разных экранах.</p></div></li><li class="step"><span class="step__num">05</span><h3 class="step__title">Проверка</h3><div class="step__text"><p>Сравниваю сайт с макетом на компьютере, планшете и телефоне, исправляю расхождения.</p></div></li></ol></div>
+      <div class="prose"><p>Несколько правил, которые экономят время при переносе. Не используйте в макете эффекты, которые конструктор не умеет повторить. Держите тексты текстом, а не картинкой. Продумывайте, как блок перестроится на узком экране, ещё в Figma. И не забывайте, что посетитель видит сайт, а не макет: проверяйте результат в браузере.</p>
+<p>Как это выглядит в работе над заказом, описано на странице <a href="../../web-design/tilda/">разработки сайта на Tilda</a>, а оценить, какие сайты получаются на этой платформе, поможет статья о том, <a href="../../blog/luchshie-sayty-na-tilde/">по каким признакам узнать хороший сайт на Tilda</a>.</p></div><h2 class="h2a" id="s10">Figma и искусственный интеллект</h2><div class="prose"><p>В редактор постепенно встраивают функции на основе ИИ: генерация вариантов экранов, переименование слоёв, подбор текстов. Набор таких функций быстро меняется, поэтому описывать конкретные кнопки нет смысла. Важнее понимать, где они полезны.</p>
+<p>ИИ хорошо помогает на ранних этапах: быстро набросать несколько вариантов структуры, заполнить макет правдоподобным текстом, перебрать идеи. Я тоже использую платные ИИ-инструменты как помощь, но итоговые решения принимаю сам и вручную довожу макет: сетку, отступы, тексты, мобильную версию. Сгенерированный экран без такой доработки обычно выглядит гладко и при этом не решает задачу конкретного бизнеса.</p></div><h2 class="h2a" id="s11">Сколько стоит Figma</h2><div class="prose"><p>У Figma есть бесплатный план с ограничениями по числу файлов и функций. Его хватает, чтобы освоить редактор и сделать первые проекты. Платные планы открывают больше возможностей для совместной работы и передачи в разработку, есть условия для студентов и преподавателей.</p>
+<p>Цены и условия тарифов меняются, а для пользователей из России доступ к оплате ограничен. Поэтому актуальную информацию проверяйте на момент покупки. Если файлы сайта делает подрядчик, заранее договоритесь, на чьём аккаунте они будут храниться и как вы получите к ним доступ после сдачи.</p></div><h2 class="h2a" id="s12">Стоит ли учить Figma новичку</h2><div class="prose"><p>Если хотите заниматься веб-дизайном или интерфейсами, однозначно да: это основной рабочий инструмент. Начинать лучше не с плагинов и сложных функций, а с сетки, текста, компонентов и Auto Layout. Хорошее упражнение: перерисовать знакомый сайт с телефона и компьютера и сравнить, как ведут себя блоки.</p>
+<p>Маркетологу хватит умения открыть макет, оставить комментарий, посмотреть прототип и выгрузить картинку для поста. Разбираться в устройстве компонентов не обязательно, но понимание того, как устроен файл, помогает ставить задачи дизайнеру точнее.</p></div>
+      <div class="blk blk--faq"><ul class="qa"><li class="qa__item"><details><summary><h3 class="qa__q">Что такое FigJam?</h3><span class="qa__plus" aria-hidden="true"></span></summary><div class="qa__a"><p>Это онлайн-доска от создателей Figma для мозговых штурмов, схем, стикеров и диаграмм. Удобна на ранних этапах: собрать требования к сайту, нарисовать карту страниц, обсудить сценарии.</p></div></details></li><li class="qa__item"><details><summary><h3 class="qa__q">Можно ли сделать логотип в Figma?</h3><span class="qa__plus" aria-hidden="true"></span></summary><div class="qa__a"><p>Простой знак можно, в Figma есть перо и работа с векторными фигурами. Для сложного логотипа, упаковки и подготовки к печати удобнее векторный редактор вроде Illustrator.</p></div></details></li><li class="qa__item"><details><summary><h3 class="qa__q">В чём разница между Figma и Tilda?</h3><span class="qa__plus" aria-hidden="true"></span></summary><div class="qa__a"><p>Figma это редактор для проектирования: в ней рисуют макет. Tilda это конструктор, на котором сайт работает в интернете. Обычно макет делают в Figma и потом собирают по нему сайт на Tilda.</p></div></details></li><li class="qa__item"><details><summary><h3 class="qa__q">В какие форматы Figma экспортирует файлы?</h3><span class="qa__plus" aria-hidden="true"></span></summary><div class="qa__a"><p>PNG, JPG, SVG и PDF. Для сайта иконки выгружают в SVG, фото в JPG или современных сжатых форматах, презентации и документы в PDF.</p></div></details></li><li class="qa__item"><details><summary><h3 class="qa__q">Что лучше для дизайна сайта: Figma или Photoshop?</h3><span class="qa__plus" aria-hidden="true"></span></summary><div class="qa__a"><p>Для макета сайта удобнее Figma: компоненты, адаптивные блоки, прототипы и передача в разработку. Photoshop остаётся инструментом для обработки фото и сложных коллажей.</p></div></details></li><li class="qa__item"><details><summary><h3 class="qa__q">Нужна ли Figma, если сайт собирается на конструкторе?</h3><span class="qa__plus" aria-hidden="true"></span></summary><div class="qa__a"><p>Для простой страницы из стандартных блоков не обязательна. Для сайта с авторским дизайном макет экономит время: структуру и мобильную версию дешевле поправить в Figma, чем в собранном сайте.</p></div></details></li></ul></div>
+      <div class="prose"><p>Если вам нужен не урок, а готовый сайт с продуманным макетом и мобильной версией, посмотрите, как я работаю над <a href="../../web-design/">сайтами для бизнеса</a>. Сайт на Tilda стоит от 80 000 ₽, индивидуальная разработка на коде от 150 000 ₽.</p></div>
+      <div class="blk blk--cta"><div class="cta-band"><div class="cta-band__text"><p class="cta-band__title">Обсудим ваш сайт?</p><div class="cta-band__sub"><p>Расскажите о задаче, и я предложу структуру, сроки и стоимость.</p></div></div><div class="cta-band__btns"><a class="btn btn--white" href="../../contact/">Обсудить проект</a><a class="btn btn--outline" href="../../calculator/">Рассчитать стоимость</a></div></div></div></div><aside class="article__aside"><nav class="toc" aria-label="Содержание"><p class="toc__h">Содержание</p><ol><li><a href="#s1">Что такое Figma: определение простыми словами</a></li><li><a href="#s2">Зачем Figma дизайнеру: пять задач</a></li><li><a href="#s3">Figma или альтернативы</a></li><li><a href="#s4">Базовые инструменты Figma: что освоить в первую очередь</a></li><li><a href="#s5">Компоненты и Auto Layout: основа профессиональной работы</a></li><li><a href="#s6">Как устроить файл проекта, чтобы в нём не потеряться</a></li><li><a href="#s7">Типичные ошибки новичков в Figma</a></li><li><a href="#s8">Плагины Figma: какие бывают и зачем нужны</a></li><li><a href="#s9">Как макет из Figma превращается в сайт на Tilda</a></li><li><a href="#s10">Figma и искусственный интеллект</a></li><li><a href="#s11">Сколько стоит Figma</a></li><li><a href="#s12">Стоит ли учить Figma новичку</a></li></ol></nav><div class="side-cta"><p class="side-cta__title">Нужен дизайн для бизнеса?</p><p>Фирменный стиль, сайт, упаковка и 3D в одном проекте.</p><a class="btn btn--blue" href="../../calculator/">Рассчитать стоимость</a><a class="btn btn--line" href="../../contact/">Обсудить проект</a></div></aside></div></section>
+  <section class="section section--light sec sec--related"><div class="container"><div class="shead"><p class="label">Смотрите также</p><h2 class="h2s">Что ещё посмотреть</h2></div><div class="lcards lcards--related"><a class="lcard" href="../../web-design/ux-ui/"><span class="lcard__kicker">Веб-дизайн</span><span class="lcard__title">UX/UI-дизайн</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../../web-design/tilda/"><span class="lcard__kicker">Веб-дизайн</span><span class="lcard__title">Сайт на Tilda</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../../web-design/"><span class="lcard__kicker">Веб-дизайн</span><span class="lcard__title">Сайты</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../../blog/luchshie-sayty-na-tilde/"><span class="lcard__kicker">Веб-дизайн</span><span class="lcard__title">Сайты на Tilda</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../../blog/adobe-illustrator-gid/"><span class="lcard__kicker">Инструменты</span><span class="lcard__title">Adobe Illustrator</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a></div></div></section>
+  
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__cols">
+      <nav class="footer__col" aria-label="Навигация">
+        <p class="footer__h">Навигация</p>
+        <a href="../../">Главная</a><a href="../../about/">Обо мне</a><a href="../../portfolio/">Портфолио</a><a href="../../reviews/">Отзывы</a><a href="../../process/">Как я работаю</a><a href="../../blog/">Блог</a><a href="../../contact/">Контакты</a>
+      </nav>
+      <nav class="footer__col" aria-label="Услуги">
+        <p class="footer__h">Услуги</p>
+        <a href="../../brand-identity/">Фирменный стиль</a><a href="../../web-design/">Сайты и разработка</a><a href="../../3d/">3D-визуализация</a><a href="../../packaging/">Упаковка</a><a href="../../presentation/">Презентации</a><a href="../../infographic/">Инфографика</a><a href="../../calculator/">Калькулятор</a>
+      </nav>
+      <nav class="footer__col" aria-label="Отрасли">
+        <p class="footer__h">Отрасли</p>
+        <a href="../../industry/manufacturing/">Производство</a><a href="../../industry/export/">Экспорт</a><a href="../../industry/b2b/">B2B</a><a href="../../industry/startup/">Стартапы</a><a href="../../industry/agritech/">Агротех</a>
+      </nav>
+      <nav class="footer__col" aria-label="Контакты">
+        <p class="footer__h">Контакты</p>
+        <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener">Макс</a>
+        <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener">Телеграм</a>
+        <a href="https://wa.me/79537808623" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="../../brief/">Заполнить бриф</a>
+      </nav>
+      <nav class="footer__col" aria-label="Соцсети">
+        <p class="footer__h">Соцсети</p>
+        <a href="https://www.behance.net/vadimporsh" target="_blank" rel="noopener">Behance</a>
+        <a href="https://www.linkedin.com/in/vadim-parshukov-b2021a212/en" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/vadim_parshukov/" target="_blank" rel="noopener">Instagram*</a>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <p class="footer__docs"><a class="footer__privacy" href="../../privacy-policy/">Политика конфиденциальности</a><a class="footer__privacy" href="../../terms-of-service/">Пользовательское соглашение</a><a class="footer__privacy" href="../../sitemap/">Карта сайта</a></p>
+      <p class="footer__disclaimer">*Meta Platforms Inc. признана экстремистской организацией, её деятельность запрещена на территории Российской Федерации.</p>
+    </div>
+    <div class="wordmark footer__wordmark" aria-hidden="true">PARSHUKOV</div>
+    <div class="footer__legal">
+      <p>ИНН: 540310719242. Работаю официально: договор, закрывающие документы, ЭДО, международные форматы сотрудничества.</p>
+      <p>© 2026 Вадим Паршуков. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../shared/js/site.js" defer></script>
+<script src="../../../shared/js/v3-pages.js" defer></script>
+
+</body>
+</html>
