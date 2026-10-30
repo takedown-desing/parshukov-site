@@ -45,9 +45,11 @@ PAGES = [
     ("/industry/startup/", "industry_startup", "/industry/"),
     ("/industry/agritech/", "industry_agritech", "/industry/"),
     ("/portfolio/", "portfolio", "/"),
-    ("/portfolio/branding/", "portfolio_branding", "/portfolio/"),
-    ("/portfolio/web/", "portfolio_web", "/portfolio/"),
-    ("/portfolio/3d/", "portfolio_3d", "/portfolio/"),
+    ("/portfolio/branding/", "portfolio_branding", "/"),
+    ("/portfolio/web/", "portfolio_web", "/"),
+    ("/portfolio/3d/", "portfolio_3d", "/"),
+    ("/portfolio/complex/", "portfolio_complex", "/"),
+    ("/portfolio/catalogs/", "portfolio_catalogs", "/"),
     ("/portfolio/packaging/", "portfolio_packaging", "/portfolio/"),
     ("/portfolio/hualian-machinery/", "portfolio_hualian-machinery", "/portfolio/"),
     ("/portfolio/ravenol/", "portfolio_ravenol", "/portfolio/"),
@@ -80,6 +82,14 @@ PAGES = [
     ("/privacy-policy/", "privacy-policy", "/"),
     ("/terms-of-service/", "terms-of-service", "/"),
 ]
+
+# Опубликованные страницы (MVP по правкам Вадима от 30.10.2026). Остальные исходники лежат в content/v3,
+# но не собираются; ссылки на них из живых страниц check_content.py считает ошибкой.
+LIVE = {
+    "/", "/brand-identity/", "/3d/", "/web-design/", "/presentation/", "/design-support/",
+    "/portfolio/branding/", "/portfolio/web/", "/portfolio/3d/", "/portfolio/complex/", "/portfolio/catalogs/",
+    "/contact/", "/brief/", "/reviews/", "/404/", "/sitemap/", "/privacy-policy/", "/terms-of-service/",
+}
 
 URLS = {p[0] for p in PAGES}
 BY_URL = {p[0]: p for p in PAGES}

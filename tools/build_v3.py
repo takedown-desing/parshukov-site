@@ -15,12 +15,13 @@ from pathlib import Path
 
 import markdown
 import yaml
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "v3"
 OUT = ROOT / "v3"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pages import PAGES, BY_URL  # noqa: E402
+from pages import PAGES, BY_URL, LIVE  # noqa: E402
 
 SITE_URL = "https://takedown-desing.github.io/parshukov-site/v3"
 TODAY = date.today().isoformat()
@@ -31,6 +32,8 @@ MAX = "https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_m
 SOCIAL = [("Behance", "https://www.behance.net/vadimporsh"),
           ("LinkedIn", "https://www.linkedin.com/in/vadim-parshukov-b2021a212/en"),
           ("Instagram*", "https://www.instagram.com/vadim_parshukov/")]
+THREADS = ""  # ссылку на Threads ждём от Вадима
+EMAIL = ""  # рабочий email ждём от Вадима: подвал, «Или напишите сразу», политика
 
 PERSON = {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": "Графический и индустриальный дизайнер",
           "url": SITE_URL + "/about/", "sameAs": [SOCIAL[0][1], SOCIAL[1][1], TG]}
@@ -39,35 +42,26 @@ PERSON = {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": 
 FALLBACK_NAMES = {"/": "Главная", "/sitemap/": "Карта сайта"}
 
 # Меню: (название, url, подпункты)
-SERVICES_MENU = [("Фирменный стиль", "/brand-identity/"), ("Сайты", "/web-design/"), ("Упаковка", "/packaging/"),
-                 ("3D-визуализация", "/3d/"), ("Полиграфия", "/print/"), ("Презентации", "/presentation/"),
-                 ("Инфографика", "/infographic/"), ("Моушн-дизайн", "/motion/"), ("Иллюстрация", "/illustration/"),
-                 ("Дизайн-поддержка", "/design-support/")]
-NAV = [("Обо мне", "/about/", None), ("Услуги", None, SERVICES_MENU), ("Отрасли", "/industry/", None),
-       ("Портфолио", "/portfolio/", None), ("Блог", "/blog/", None), ("Контакты", "/contact/", None)]
+SERVICES_MENU = [("Фирменный стиль", "/brand-identity/"), ("3D-визуализация", "/3d/"), ("Сайты", "/web-design/"),
+                 ("Презентации и каталоги", "/presentation/"), ("Дизайн-поддержка", "/design-support/")]
+CASES_MENU = [("Фирменный стиль", "/portfolio/branding/"), ("Сайты", "/portfolio/web/"),
+              ("3D-визуализация", "/portfolio/3d/"), ("Комплексные решения", "/portfolio/complex/"),
+              ("Презентации и каталоги", "/portfolio/catalogs/")]
+NAV = [("Обо мне", "/#about", None), ("Услуги", None, SERVICES_MENU), ("Кейсы", None, CASES_MENU),
+       ("Контакты", "/contact/", None)]
 
 FOOTER_COLS = [
-    ("Навигация", [("Главная", "/"), ("Обо мне", "/about/"), ("Портфолио", "/portfolio/"), ("Отзывы", "/reviews/"),
-                   ("Как я работаю", "/process/"), ("Блог", "/blog/"), ("Контакты", "/contact/")]),
-    ("Услуги", [("Фирменный стиль", "/brand-identity/"), ("Сайты и разработка", "/web-design/"),
-                ("3D-визуализация", "/3d/"), ("Упаковка", "/packaging/"), ("Презентации", "/presentation/"),
-                ("Инфографика", "/infographic/"), ("Калькулятор", "/calculator/")]),
-    ("Отрасли", [("Производство", "/industry/manufacturing/"), ("Экспорт", "/industry/export/"),
-                 ("B2B", "/industry/b2b/"), ("Стартапы", "/industry/startup/"), ("Агротех", "/industry/agritech/")]),
+    ("Навигация", [("Главная", "/"), ("Обо мне", "/#about"), ("Услуги", "/#services"), ("Кейсы", "/portfolio/complex/"),
+                   ("Контакты", "/contact/")]),
+    ("Услуги", [("Комплексные работы", "/portfolio/complex/"), ("Брендинг", "/brand-identity/"),
+                ("Разработка", "/web-design/"), ("3D-визуализация", "/3d/")]),
 ]
 
 # Группы HTML-карты сайта: заголовок -> отбор страниц
 SITEMAP_GROUPS = [
-    ("Основное", lambda u: u in ("/", "/about/", "/process/", "/reviews/", "/faq/", "/contact/", "/calculator/",
-                                 "/brief/", "/freebies/")),
-    ("Фирменный стиль", lambda u: u.startswith("/brand-identity/")),
-    ("Сайты", lambda u: u.startswith("/web-design/")),
-    ("Упаковка, 3D, полиграфия", lambda u: u.startswith(("/packaging/", "/3d/", "/print/"))),
-    ("Другие услуги", lambda u: u in ("/presentation/", "/infographic/", "/motion/", "/illustration/",
-                                      "/design-support/")),
-    ("Отрасли", lambda u: u.startswith("/industry/")),
-    ("Портфолио", lambda u: u.startswith("/portfolio/")),
-    ("Блог", lambda u: u.startswith("/blog/")),
+    ("Основное", lambda u: u in ("/", "/reviews/", "/contact/", "/brief/")),
+    ("Услуги", lambda u: u in ("/brand-identity/", "/3d/", "/web-design/", "/presentation/", "/design-support/")),
+    ("Кейсы", lambda u: u.startswith("/portfolio/")),
     ("Документы", lambda u: u in ("/sitemap/", "/privacy-policy/", "/terms-of-service/")),
 ]
 
@@ -355,7 +349,7 @@ def b_prices(text, params, ctx, **_):
         out.append(f'<article class="price"><h3 class="price__title">{md(title, ctx, True)}</h3>'
                    f'<p class="price__sum">{esc(price)}</p><div class="price__list">{md(chr(10).join(rest), ctx)}</div>'
                    + (f'<p class="price__term">Срок: {esc(term)}</p>' if term else "")
-                   + f'<a class="btn btn--line price__btn" href="{ctx.rel("/calculator/")}">Рассчитать стоимость</a></article>')
+                   + f'<a class="btn btn--line price__btn" href="{ctx.rel("/#calculator")}">Рассчитать стоимость</a></article>')
     return f'<div class="prices">{"".join(out)}</div>'
 
 
@@ -386,7 +380,18 @@ def b_links(text, params, ctx, **_):
             out.append(f'<a class="lcard" href="{ctx.rel(m.group(2))}"><span class="lcard__title">{esc(m.group(1))}</span>'
                        + (f'<span class="lcard__text">{md(m.group(3), ctx, True)}</span>' if m.group(3) else "")
                        + f'{arrow()}</a>')
+            continue
+        m = re.match(r"^\s*-\s*([^:]+):\s*(.*)$", line)  # пункт без ссылки: карточка без перехода
+        if m:
+            out.append(f'<div class="lcard"><span class="lcard__title">{esc(m.group(1))}</span>'
+                       f'<span class="lcard__text">{md(m.group(2), ctx, True)}</span></div>')
     return f'<div class="lcards">{"".join(out)}</div>'
+
+
+def b_button(text, params, ctx, **_):
+    """Одна кнопка под блоком: :::button text="Смотреть проекты" href=/portfolio/branding/"""
+    return (f'<p class="blk-btn"><a class="btn btn--blue" href="{ctx.rel(params.get("href", "/contact/"))}">'
+            f'{esc(params.get("text", "Подробнее"))}</a></p>')
 
 
 def b_note(text, params, ctx, **_):
@@ -396,10 +401,115 @@ def b_note(text, params, ctx, **_):
 def b_cta(text, params, ctx, **_):
     items = split_items(text)
     title, body = items[0] if items else ("Обсудим проект?", text)
+    if params.get("btn"):  # одна кнопка со своим текстом
+        btns = f'<a class="btn btn--white" href="{ctx.rel(params.get("href", "/contact/"))}">{esc(params["btn"])}</a>'
+    else:
+        btns = (f'<a class="btn btn--white" href="{ctx.rel("/contact/")}">Обсудить проект</a>'
+                f'<a class="btn btn--outline" href="{ctx.rel("/#calculator")}">Рассчитать стоимость</a>')
     return (f'<div class="cta-band"><div class="cta-band__text"><p class="cta-band__title">{md(title, ctx, True)}</p>'
-            f'<div class="cta-band__sub">{md(body, ctx)}</div></div><div class="cta-band__btns">'
-            f'<a class="btn btn--white" href="{ctx.rel("/contact/")}">Обсудить проект</a>'
-            f'<a class="btn btn--outline" href="{ctx.rel("/calculator/")}">Рассчитать стоимость</a></div></div>')
+            f'<div class="cta-band__sub">{md(body, ctx)}</div></div><div class="cta-band__btns">{btns}</div></div>')
+
+
+def b_price(text, params, ctx, **_):
+    """Выделенная цена с кнопкой: :::price sum="от 30 000 ₽" btn="Заказать" href=/contact/"""
+    return (f'<div class="price-hl"><div class="price-hl__text"><p class="price-hl__k">Стоимость</p>'
+            f'<p class="price-hl__sum">{esc(params.get("sum", ""))}</p>{md(text, ctx) if text else ""}</div>'
+            f'<a class="btn btn--blue price-hl__btn" href="{ctx.rel(params.get("href", "/contact/"))}">'
+            f'{esc(params.get("btn", "Заказать"))}</a></div>')
+
+
+# ---------- Страницы кейсов (макеты Figma от 30.10.2026) ----------
+CASE_IMG = ROOT / "shared" / "img" / "cases"
+
+
+def img_tag(ctx, rel_file, alt, cls=""):
+    """rel_file: путь внутри shared/img/cases без расширения"""
+    f = CASE_IMG / f"{rel_file}.webp"
+    w, h = Image.open(f).size
+    return (f'<img{f" class={cls}" if cls else ""} src="{ctx.asset("shared/img/cases/" + rel_file + ".webp")}" '
+            f'alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy" decoding="async">')
+
+
+def ex_head(name, tag="h2"):
+    return (f'<{tag} class="ex-head"><span class="ex-head__k">Пример:</span>'
+            f'<span class="ex-head__name">{esc(name)}</span></{tag}>')
+
+
+def b_own(text, params, ctx, **_):
+    return f'<div class="own"><p class="own__k">От себя:</p><div class="own__body">{md(text, ctx)}</div></div>'
+
+
+def b_case(text, params, ctx, **_):
+    """:::case name="СОКОЛ" pills="а|б|в" img=web/sokol [n=8] [layout=grid|laptop|row] [site=https://…]"""
+    name = params["name"]
+    pills = "".join(f"<li>{esc(x.strip())}</li>" for x in params.get("pills", "").split("|") if x.strip())
+    n = int(params.get("n", 1))
+    files = [params["img"]] if n == 1 else [f'{params["img"]}-{i}' for i in range(1, n + 1)]
+    media = "".join(f'<figure class="case__img">{img_tag(ctx, f, f"{name}: пример работы {i}")}</figure>'
+                    for i, f in enumerate(files, 1))
+    parts = "".join(f'<div class="case__part"><h3 class="case__label">{md(t, ctx, True)}</h3>'
+                    f'<div class="case__text">{md(b, ctx)}</div></div>' for t, b in split_items(text))
+    site = params.get("site")
+    link = (f'<a class="case__site" href="{site}" target="_blank" rel="noopener">Смотреть сайт компании {arrow()}</a>'
+            if site else "")
+    return (f'<article class="case case--{params.get("layout", "grid")}">{ex_head(name)}'
+            + (f'<ul class="pills">{pills}</ul>' if pills else "")
+            + f'<div class="case__body"><div class="case__info">{parts}{link}</div>'
+            f'<div class="case__media">{media}</div></div></article>')
+
+
+def b_tiles(text, params, ctx, **_):
+    """Сетка карточек с подписями. Строки элемента: img: путь, flags: ru cn | подпись, link: текст | url;
+    остальное: подзаголовок. Элемент ### !note: синяя карточка-примечание."""
+    out = []
+    for title, body in split_items(text):
+        if title == "!note":
+            out.append(f'<div class="tile tile--note">{md(body, ctx)}</div>')
+            continue
+        img, geo, link, sub = "", "", "", []
+        for line in body.split("\n"):
+            k, _, v = line.partition(":")
+            if k.strip() == "img":
+                img = img_tag(ctx, v.strip(), f"{title}: {' '.join(sub) or title}")
+            elif k.strip() == "flags":
+                codes, _, cap = v.partition("|")
+                flags = "".join(f'<img class="flag" src="{ctx.asset("shared/img/cases/flags/" + c + ".webp")}" alt="" '
+                                f'width="15" height="15">' for c in codes.split())
+                geo = f'<span class="tile__geo">{flags}<span>{esc(cap.strip())}</span></span>'
+            elif k.strip() == "link":
+                lt, _, lu = v.partition("|")
+                link = f' <a class="tile__link" href="{lu.strip()}" target="_blank" rel="noopener">{esc(lt.strip())}</a>'
+            elif line.strip():
+                sub.append(line.strip())
+        out.append(f'<figure class="tile"><div class="tile__img">{img}</div><figcaption><b class="tile__name">{esc(title)}</b>'
+                   f'<span class="tile__sub">{esc(" ".join(sub))}{link}</span>{geo}</figcaption></figure>')
+    head = ex_head(params["title"]) if params.get("title") else ""
+    return f'{head}<div class="tiles">{"".join(out)}</div>'
+
+
+def b_partners(text, params, ctx, **_):
+    return (f'<div class="partners"><div class="partners__text">{md(text, ctx)}</div>'
+            f'<div class="partners__band">{img_tag(ctx, params["img"], params.get("alt", ""))}</div></div>')
+
+
+def home_part(pattern, ctx):
+    """Кусок главной (лента работ, форма с наклонными фото) с путями, пересчитанными под страницу ctx"""
+    h = (OUT / "index.html").read_text(encoding="utf-8")
+    part = re.search(pattern, h, re.S).group(0)
+    part = part.replace('"../shared/', f'"{ctx.asset("shared/")}')
+    return re.sub(r'href="(brief/|privacy-policy/)"', lambda m: f'href="{ctx.rel("/" + m.group(1))}"', part)
+
+
+def contact_sec(ctx):
+    return home_part(r'<section class="section section--light contact" id="contact">.*?</section>', ctx)
+
+
+def works_sec(ctx):
+    return home_part(r'<section class="works".*?</section>', ctx)
+
+
+def b_contact(text, params, ctx, **_):
+    return contact_sec(ctx)
 
 
 def b_gallery(text, params, ctx, page, pages, manifest, **_):
@@ -462,7 +572,8 @@ def b_sitemap(text, params, ctx, pages, **_):
 
 BLOCKS = {"cards": b_cards, "steps": b_steps, "prices": b_prices, "facts": b_facts, "faq": b_faq,
           "links": b_links, "note": b_note, "cta": b_cta, "gallery": b_gallery, "calculator": b_calculator,
-          "form": b_form, "sitemap": b_sitemap}
+          "form": b_form, "sitemap": b_sitemap, "price": b_price, "own": b_own, "case": b_case, "tiles": b_tiles,
+          "catalogs": b_tiles, "partners": b_partners, "contact": b_contact, "button": b_button}
 
 
 def lead_form(ctx, brief=False):
@@ -520,9 +631,13 @@ def lead_form(ctx, brief=False):
         <div class="messengers__btns">
           <a class="btn btn--black" href="{TG}" target="_blank" rel="noopener">Telegram</a>
           <a class="btn btn--black" href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="btn btn--black" href="{MAX}" target="_blank" rel="noopener">MAX</a>
+          <a class="btn btn--black" href="{MAX}" target="_blank" rel="noopener">MAX</a>{email_btn("btn--black")}
         </div>
       </div>"""
+
+
+def email_btn(cls):
+    return f'\n          <a class="btn {cls}" href="mailto:{EMAIL}">{EMAIL}</a>' if EMAIL else ""
 
 
 def page_cover(url, manifest):
@@ -584,7 +699,6 @@ def header_html(ctx, current):
   <div class="mobile-menu" id="mobile-menu" hidden>
     <nav class="mnav" aria-label="Мобильная навигация">
       {nav_html(ctx, current, mobile=True)}
-      <a href="{ctx.rel('/calculator/')}">Калькулятор</a>
     </nav>
     <div class="mobile-menu__social">
       {socials}
@@ -603,10 +717,10 @@ def footer_html(ctx):
         <p class="footer__h">Контакты</p>
         <a href="{MAX}" target="_blank" rel="noopener">Макс</a>
         <a href="{TG}" target="_blank" rel="noopener">Телеграм</a>
-        <a href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="{ctx.rel('/brief/')}">Заполнить бриф</a>
+        <a href="{WA}" target="_blank" rel="noopener">WhatsApp</a>{f'{chr(10)}        <a href="mailto:{EMAIL}">Email</a>' if EMAIL else ""}
       </nav>""")
-    soc = "".join(f'\n        <a href="{u}" target="_blank" rel="noopener">{n}</a>' for n, u in SOCIAL)
+    social = SOCIAL[1:] + ([("Threads", THREADS)] if THREADS else [])
+    soc = "".join(f'\n        <a href="{u}" target="_blank" rel="noopener">{n}</a>' for n, u in social)
     cols.append(f'<nav class="footer__col" aria-label="Соцсети">\n        <p class="footer__h">Соцсети</p>{soc}\n      </nav>')
     nl = "\n      "
     return f"""<footer class="footer">
@@ -615,7 +729,7 @@ def footer_html(ctx):
       {nl.join(cols)}
     </div>
     <div class="footer__meta">
-      <p class="footer__docs"><a class="footer__privacy" href="{ctx.rel('/privacy-policy/')}">Политика конфиденциальности</a><a class="footer__privacy" href="{ctx.rel('/terms-of-service/')}">Пользовательское соглашение</a><a class="footer__privacy" href="{ctx.rel('/sitemap/')}">Карта сайта</a></p>
+      <p class="footer__docs"><a class="footer__privacy" href="{ctx.rel('/privacy-policy/')}">Политика конфиденциальности</a></p>
       <p class="footer__disclaimer">*Meta Platforms Inc. признана экстремистской организацией, её деятельность запрещена на территории Российской Федерации.</p>
     </div>
     <div class="wordmark footer__wordmark" aria-hidden="true">PARSHUKOV</div>
@@ -649,16 +763,17 @@ def hero_html(page, ctx, pages, manifest):
         dd = d.strftime("%d.%m.%Y") if hasattr(d, "strftime") else str(d)
         meta = f'<p class="phero__meta"><time datetime="{d}">{dd}</time><span>{page.get("read_time")} мин чтения</span><span>Вадим Паршуков</span></p>'
     btns = ""
-    if t in ("service", "industry", "hub", "case") or page["url"] in ("/about/", "/process/", "/reviews/", "/freebies/"):
+    plain = page.get("hero") == "plain" or t == "cases"  # компактный hero без картинки и кнопок
+    if not plain and (t in ("service", "industry", "hub", "case") or page["url"] in ("/about/", "/process/", "/reviews/")):
         btns = (f'<div class="phero__btns"><a class="btn btn--white" href="{ctx.rel("/contact/")}">Обсудить проект</a>'
-                f'<a class="btn btn--outline" href="{ctx.rel("/calculator/")}">Рассчитать стоимость</a></div>')
-    cover = page_cover(page["url"], manifest) if t != "article" else None
+                f'<a class="btn btn--outline" href="{ctx.rel("/#calculator")}">Рассчитать стоимость</a></div>')
+    cover = page_cover(page["url"], manifest) if t != "article" and not plain else None
     img = ""
     if cover:
         img = (f'<div class="phero__media"><img src="{ctx.asset("shared/img/" + cover["file"])}" alt="{esc(cover["alt"])}" '
                f'width="{cover["w"]}" height="{cover["h"]}" fetchpriority="high" decoding="async"></div>')
     label = f'<p class="label label--light">{esc(page["label"])}</p>' if page.get("label") else ""
-    return f"""<section class="phero{" phero--media" if img else ""}">
+    return f"""<section class="phero{" phero--media" if img else ""}{" phero--plain" if plain else ""}">
     <div class="hero__planet" aria-hidden="true"></div>
     <div class="container phero__inner">
       <nav class="crumbs" aria-label="Хлебные крошки"><ol>{crumbs}</ol></nav>
@@ -715,7 +830,7 @@ def body_html(page, ctx, pages, manifest):
                     if len(toc) > 2 else "")
         aside = (f'<aside class="article__aside">{toc_html}<div class="side-cta"><p class="side-cta__title">Нужен дизайн для бизнеса?</p>'
                  f'<p>Фирменный стиль, сайт, упаковка и 3D в одном проекте.</p>'
-                 f'<a class="btn btn--blue" href="{ctx.rel("/calculator/")}">Рассчитать стоимость</a>'
+                 f'<a class="btn btn--blue" href="{ctx.rel("/#calculator")}">Рассчитать стоимость</a>'
                  f'<a class="btn btn--line" href="{ctx.rel("/contact/")}">Обсудить проект</a></div></aside>')
         return (f'<section class="section section--light sec article"><div class="container article__grid">'
                 f'<div class="article__body">{"".join(chunks)}</div>{aside}</div></section>')
@@ -727,8 +842,17 @@ def body_html(page, ctx, pages, manifest):
             chunks.append(render_parts(s["parts"], ctx, page, pages, manifest))
         return (f'<section class="section section--light sec doc-sec"><div class="container">'
                 f'<div class="doc">{"".join(chunks)}</div></div></section>')
+    if page["type"] == "cases":
+        chunks = [(f'<h2 class="h2s">{md(s["h2"], ctx, True)}</h2>' if s["h2"] else "")
+                  + render_parts(s["parts"], ctx, page, pages, manifest) for s in sections]
+        return (f'<section class="section section--light sec cs"><div class="container">{"".join(chunks)}</div></section>'
+                f'\n  {contact_sec(ctx)}\n  {works_sec(ctx)}')
     out, prev = [], None
     for i, s in enumerate(sections):
+        blocks = [p for p in s["parts"] if not (p[0] == "md" and not p[1].strip())]
+        if not s["h2"] and len(blocks) == 1 and blocks[0][0] != "md" and blocks[0][1] == "contact":
+            out.append(contact_sec(ctx))  # форма как на главной, своя секция без обёртки
+            continue
         tone = s["attrs"].get("tone", "light")
         tone = tone if tone in ("light", "grey", "dark") else "light"
         if tone == prev == "light" and False:
@@ -738,22 +862,6 @@ def body_html(page, ctx, pages, manifest):
         out.append(f'<section class="section section--{tone} sec">\n    <div class="container">\n      {head}\n      '
                    f'{render_parts(s["parts"], ctx, page, pages, manifest)}\n    </div>\n  </section>')
     return "\n  ".join(out)
-
-
-def related_html(page, ctx, pages):
-    rel = [u for u in page.get("related") or [] if u in pages or u in FALLBACK_NAMES]
-    if not rel:
-        return ""
-    cards = []
-    for u in rel:
-        p = pages.get(u, {})
-        name = p.get("crumb") or FALLBACK_NAMES.get(u, u)
-        sub = p.get("label") if p.get("label") and p.get("label") != name else ""
-        cards.append(f'<a class="lcard" href="{ctx.rel(u)}">' + (f'<span class="lcard__kicker">{esc(sub)}</span>' if sub else "")
-                     + f'<span class="lcard__title">{esc(name)}</span>{arrow()}</a>')
-    return (f'<section class="section section--light sec sec--related"><div class="container">'
-            f'<div class="shead"><p class="label">Смотрите также</p><h2 class="h2s">Что ещё посмотреть</h2></div>'
-            f'<div class="lcards lcards--related">{"".join(cards)}</div></div></section>')
 
 
 def cta_html(ctx):
@@ -828,9 +936,8 @@ def render(page, pages, manifest):
     page["faq"] = []
     main = body_html(page, ctx, pages, manifest)  # первым: заполняет page["faq"]
     hero = hero_html(page, ctx, pages, manifest)
-    related = related_html(page, ctx, pages)
-    cta = "" if page["url"] in ("/contact/", "/404/") or "blk--cta" in main else cta_html(ctx)
-    main_html = typograph(f"{hero}\n  {main}\n  {related}\n  {cta}")
+    cta = "" if page["url"] in ("/contact/", "/404/") or "blk--cta" in main or page["type"] == "cases" else cta_html(ctx)
+    main_html = typograph(f"{hero}\n  {main}\n  {cta}")
     cover = page_cover(page["url"], manifest)
     og_img = f'{SITE_URL.rsplit("/", 1)[0]}/shared/img/{cover["file"] if cover else "hero-main.webp"}'
     is404 = page["url"] == "/404/"
@@ -926,14 +1033,23 @@ def main():
     manifest = load_manifest()
     pages = {}
     for url, slug, parent in PAGES:
-        if url == "/":
+        if url == "/" or url not in LIVE:
             continue
         meta = load_page(slug)
         if meta is None:
             continue
         meta["url"] = url
         pages[url] = meta
-    missing = [u for u, s, _ in PAGES if u != "/" and u not in pages]
+    missing = [u for u in LIVE if u != "/" and u not in pages]
+    # снятые с публикации страницы: удаляем их собранные index.html и опустевшие папки
+    for url, _, _ in PAGES:
+        if url not in LIVE:
+            f = OUT / url.strip("/") / "index.html"
+            if f.exists():
+                f.unlink()
+    for d in sorted((p for p in OUT.rglob("*") if p.is_dir()), key=lambda p: -len(p.parts)):
+        if not any(d.iterdir()):
+            d.rmdir()
     built = 0
     for url, page in pages.items():
         html_out = render(page, pages, manifest)

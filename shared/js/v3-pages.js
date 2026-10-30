@@ -71,6 +71,26 @@
     });
   }
 
+  // Лента работ: стрелки листают её на ширину экрана
+  Array.prototype.forEach.call(document.querySelectorAll(".works"), function (w) {
+    var strip = w.querySelector(".works__strip");
+    var prev = w.querySelector(".works__arrow--prev");
+    var next = w.querySelector(".works__arrow--next");
+    if (!strip || !prev || !next) return;
+    var sync = function () {
+      prev.disabled = strip.scrollLeft < 4;
+      next.disabled = strip.scrollLeft + strip.clientWidth > strip.scrollWidth - 4;
+    };
+    var go = function (dir) {
+      strip.scrollBy({ left: dir * strip.clientWidth * 0.8, behavior: "smooth" });
+    };
+    prev.addEventListener("click", function () { go(-1); });
+    next.addEventListener("click", function () { go(1); });
+    strip.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
+  });
+
   // Оглавление статьи: подсветка текущего раздела
   var toc = document.querySelector(".toc");
   if (!toc || !("IntersectionObserver" in window)) return;

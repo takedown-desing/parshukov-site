@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Проверка файлов content/v3/*.md по правилам _FORMAT.md.
 
-python3 tools/check_content.py                  # все файлы
+python3 tools/check_content.py                  # опубликованные страницы (LIVE в pages.py)
 python3 tools/check_content.py about.md faq.md  # выборочно
 """
 import re
@@ -13,10 +13,11 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "v3"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pages import URLS  # noqa: E402
+from pages import URLS, LIVE  # noqa: E402
 
-TYPES = {"service", "hub", "case", "industry", "article", "page"}
-BLOCKS = {"cards", "steps", "prices", "facts", "faq", "links", "note", "cta", "gallery", "calculator", "form", "sitemap"}
+TYPES = {"service", "hub", "case", "cases", "industry", "article", "page"}
+BLOCKS = {"button", "cards", "steps", "prices", "facts", "faq", "links", "note", "cta", "gallery", "calculator", "form", "sitemap",
+          "own", "case", "tiles", "catalogs", "partners", "price", "contact"}
 FORBIDDEN = [
     r"\bмы\b", r"\bнаш[аеиу]?\b", r"\bнашей\b", r"\bнашим\b", r"\bнаших\b", r"\bкоманд[аеуыо]й?\b",
     r"\bстуди[яиюей]\b", r"\bагентств[оаеу]\b", r"агентск", r"без посредник", r"без наценок",
@@ -53,11 +54,12 @@ def check(path):
     if not 110 <= len(d) <= 175:
         warns.append(f"description {len(d)} знаков")
     for u in meta.get("related") or []:
-        if u not in URLS:
+        if u not in LIVE:
             errs.append(f"related {u} не из списка")
     if "—" in text:
         errs.append(f"длинное тире: {text.count('—')} шт.")
-    for pat in FORBIDDEN:
+    # Страницы кейсов: дословные тексты Вадима из макетов, «мы» и «команда» там оставлены по его решению
+    for pat in FORBIDDEN if meta.get("type") != "cases" else FORBIDDEN[6:]:
         for mm in re.finditer(pat, text, re.I):
             ctx = text[max(0, mm.start() - 30): mm.end() + 30].replace("\n", " ")
             if pat == r"\bмы\b" and "мы с вами" in ctx.lower():
@@ -66,9 +68,9 @@ def check(path):
     for mm in re.finditer(r"\]\(([^)\s]+)\)", body):
         u = mm.group(1)
         if u.startswith("/"):
-            if u.split("#")[0] not in URLS:
-                errs.append(f"ссылка на несуществующий URL {u}")
-        else:
+            if u.split("#")[0] not in LIVE:
+                errs.append(f"ссылка на неопубликованный URL {u}")
+        elif not u.startswith("https://"):
             errs.append(f"внешняя ссылка {u}")
     opened = None
     for i, line in enumerate(body.split("\n"), 1):
@@ -98,7 +100,7 @@ def check(path):
         if mm.group(1) + " 000" not in ALLOWED_PRICES:
             warns.append(f"цена {mm.group(0)} не из списка")
     words = len(re.findall(r"[А-Яа-яЁёA-Za-z]{2,}", body))
-    lim = {"service": (900, 1700), "hub": (500, 1200), "industry": (650, 1300), "case": (400, 1000),
+    lim = {"service": (900, 1700), "hub": (500, 1200), "industry": (650, 1300), "case": (400, 1000), "cases": (150, 1500),
            "article": (1500, 2900), "page": (200, 1000)}.get(meta.get("type"), (0, 99999))
     if not lim[0] <= words <= lim[1]:
         warns.append(f"объём {words} слов, ожидается {lim[0]}–{lim[1]}")
@@ -106,13 +108,18 @@ def check(path):
         for b in ("faq", "cta"):
             if f":::{b}" not in body:
                 errs.append(f"нет блока {b}")
-        if "/calculator/" not in body:
-            warns.append("нет ссылки на /calculator/")
+
     return errs, warns
 
 
+def url_of(path):
+    m = re.search(r"^url:\s*(\S+)", path.read_text(encoding="utf-8"), re.M)
+    return m.group(1).strip("\"'") if m else None
+
+
 def main():
-    files = [CONTENT / a for a in sys.argv[1:]] or sorted(p for p in CONTENT.glob("*.md") if not p.name.startswith("_"))
+    files = [CONTENT / a for a in sys.argv[1:]] or sorted(
+        p for p in CONTENT.glob("*.md") if not p.name.startswith("_") and url_of(p) in LIVE)
     bad = 0
     for p in files:
         errs, warns = check(p)

@@ -44,11 +44,9 @@
   <div class="container header__inner">
     <a class="logo" href="../">Вадим Паршуков</a>
     <nav class="nav" aria-label="Основная навигация">
-      <a href="../about/">Обо мне</a>
-      <div class="nav__drop"><button class="nav__drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Услуги<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="nav__menu"><a href="../brand-identity/">Фирменный стиль</a><a href="../web-design/">Сайты</a><a href="../packaging/">Упаковка</a><a href="../3d/">3D-визуализация</a><a href="../print/">Полиграфия</a><a href="../presentation/">Презентации</a><a href="../infographic/">Инфографика</a><a href="../motion/">Моушн-дизайн</a><a href="../illustration/">Иллюстрация</a><a href="../design-support/">Дизайн-поддержка</a></div></div>
-      <a href="../industry/">Отрасли</a>
-      <a href="../portfolio/">Портфолио</a>
-      <a href="../blog/">Блог</a>
+      <a href="../#about">Обо мне</a>
+      <div class="nav__drop"><button class="nav__drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Услуги<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="nav__menu"><a href="../brand-identity/">Фирменный стиль</a><a href="../3d/">3D-визуализация</a><a href="../web-design/">Сайты</a><a href="../presentation/">Презентации и каталоги</a><a href="../design-support/">Дизайн-поддержка</a></div></div>
+      <div class="nav__drop"><button class="nav__drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Кейсы<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="nav__menu"><a href="../portfolio/branding/">Фирменный стиль</a><a href="../portfolio/web/">Сайты</a><a href="../portfolio/3d/">3D-визуализация</a><a href="../portfolio/complex/">Комплексные решения</a><a href="../portfolio/catalogs/">Презентации и каталоги</a></div></div>
       <a href="../contact/" aria-current=page>Контакты</a>
     </nav>
     <div class="header__social">
@@ -61,13 +59,10 @@
   </div>
   <div class="mobile-menu" id="mobile-menu" hidden>
     <nav class="mnav" aria-label="Мобильная навигация">
-      <a href="../about/">Обо мне</a>
-      <details class="mnav__group"><summary>Услуги</summary><div><a href="../brand-identity/">Фирменный стиль</a><a href="../web-design/">Сайты</a><a href="../packaging/">Упаковка</a><a href="../3d/">3D-визуализация</a><a href="../print/">Полиграфия</a><a href="../presentation/">Презентации</a><a href="../infographic/">Инфографика</a><a href="../motion/">Моушн-дизайн</a><a href="../illustration/">Иллюстрация</a><a href="../design-support/">Дизайн-поддержка</a></div></details>
-      <a href="../industry/">Отрасли</a>
-      <a href="../portfolio/">Портфолио</a>
-      <a href="../blog/">Блог</a>
+      <a href="../#about">Обо мне</a>
+      <details class="mnav__group"><summary>Услуги</summary><div><a href="../brand-identity/">Фирменный стиль</a><a href="../3d/">3D-визуализация</a><a href="../web-design/">Сайты</a><a href="../presentation/">Презентации и каталоги</a><a href="../design-support/">Дизайн-поддержка</a></div></details>
+      <details class="mnav__group"><summary>Кейсы</summary><div><a href="../portfolio/branding/">Фирменный стиль</a><a href="../portfolio/web/">Сайты</a><a href="../portfolio/3d/">3D-визуализация</a><a href="../portfolio/complex/">Комплексные решения</a><a href="../portfolio/catalogs/">Презентации и каталоги</a></div></details>
       <a href="../contact/" aria-current=page>Контакты</a>
-      <a href="../calculator/">Калькулятор</a>
     </nav>
     <div class="mobile-menu__social">
       <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>
@@ -96,11 +91,17 @@
       </div>
     </div>
   </section>
-  <section class="section section--light sec">
+  <section class="section section--light contact" id="contact">
     <div class="container">
-      <div class="shead"><p class="label">Форма</p><h2 class="h2s">Оставить заявку</h2></div>
-      <div class="prose"><p>Обязательное поле одно: телефон. Остальное заполните, если удобно, это поможет подготовиться к разговору. Отвечу в мессенджере, который вы выберете.</p></div>
-      <div class="blk blk--form"><form class="form" id="lead-form" novalidate data-endpoint="">
+      <div class="contact__cards" data-fly aria-hidden="true">
+        <img class="contact__card contact__card--left" src="../../shared/img/contact-left.webp" alt="" width="640" height="460" loading="lazy">
+        <img class="contact__card contact__card--center" src="../../shared/img/contact-center.webp" alt="" width="608" height="670" loading="lazy">
+        <img class="contact__card contact__card--right" src="../../shared/img/contact-right.webp" alt="" width="640" height="384" loading="lazy">
+      </div>
+      <h2 class="contact__title">Давайте познакомимся <br>и обсудим ваш проект</h2>
+      <p class="contact__sub">Расскажите о задаче: сайт, брендинг, упаковка, 3D или всё сразу. Подскажу, как лучше её решить.</p>
+
+      <form class="form" id="lead-form" novalidate data-endpoint="">
         <label class="hp" aria-hidden="true">Не заполняйте это поле <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
         <div class="form__row">
           <label class="field"><span class="sr-only">Ваше имя</span><input type="text" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="100"></label>
@@ -111,12 +112,13 @@
           <label class="field"><span class="sr-only">Телефон для связи</span><input type="tel" name="phone" placeholder="* Телефон для связи" autocomplete="tel" required maxlength="30"></label>
         </div>
         <label class="field field--area"><span class="sr-only">Предварительная информация</span><textarea name="message" rows="3" placeholder="Предварительная информация" maxlength="2000"></textarea></label>
+
         <fieldset class="seg">
           <legend class="seg__label">Бюджет:</legend>
           <div class="seg__opts">
-            <label><input type="radio" name="budget" value="от 30 тыс." checked><span>от&nbsp;30&nbsp;тыс.</span></label>
-            <label><input type="radio" name="budget" value="от 60 тыс."><span>от&nbsp;60&nbsp;тыс.</span></label>
-            <label><input type="radio" name="budget" value="от 100 тыс."><span>от&nbsp;100&nbsp;тыс.</span></label>
+            <label><input type="radio" name="budget" value="от&nbsp;30&nbsp;тыс." checked><span>от&nbsp;30&nbsp;тыс.</span></label>
+            <label><input type="radio" name="budget" value="от&nbsp;60&nbsp;тыс."><span>от&nbsp;60&nbsp;тыс.</span></label>
+            <label><input type="radio" name="budget" value="от&nbsp;100&nbsp;тыс."><span>от&nbsp;100&nbsp;тыс.</span></label>
           </div>
         </fieldset>
         <fieldset class="seg">
@@ -127,20 +129,29 @@
             <label><input type="radio" name="channel" value="MAX"><span>MAX</span></label>
           </div>
         </fieldset>
+
         <div class="form__bottom">
           <label class="check"><input type="checkbox" name="consent" required><span class="check__box"><svg><use href="#i-check"/></svg></span><span>Я согласен с <a href="../privacy-policy/" class="link" target="_blank">политикой конфиденциальности</a></span></label>
           <button class="btn btn--black form__submit" type="submit">Отправить заявку</button>
         </div>
         <p class="form__status" role="status" aria-live="polite"></p>
       </form>
-      <div class="messengers">
-        <p class="messengers__title">Или напишите сразу</p>
-        <div class="messengers__btns">
-          <a class="btn btn--black" href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener">Telegram</a>
-          <a class="btn btn--black" href="https://wa.me/79537808623" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="btn btn--black" href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener">MAX</a>
+
+      <div class="contact__aside">
+        <div class="aside-card">
+          <p class="aside-card__title">Хотите описать задачу подробнее?</p>
+          <p class="aside-card__text">Заполните бриф: компания, продукт, рынки, сроки и примеры, которые нравятся. Так первая встреча пройдёт предметно.</p>
+          <a class="btn btn--blue" href="../brief/">Заполнить бриф</a>
         </div>
-      </div></div>
+        <div class="aside-card aside-card--dark">
+          <p class="aside-card__title">Или напишите сразу</p>
+          <div class="aside-card__btns">
+            <a class="btn btn--white" href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener">Telegram</a>
+            <a class="btn btn--white" href="https://wa.me/79537808623" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn btn--white" href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener">MAX</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   <section class="section section--grey sec">
@@ -153,10 +164,9 @@
     <div class="container">
       <div class="shead"><p class="label">Документы</p><h2 class="h2s">Реквизиты</h2></div>
       <div class="prose"><p>Вадим Паршуков, ИНН 540310719242. Договор, закрывающие документы и ЭДО для компаний. Для зарубежных клиентов обсуждаем удобный формат сотрудничества.</p>
-<p>Если хотите сначала прикинуть бюджет, воспользуйтесь <a href="../calculator/">калькулятором</a>. Если задача большая и хочется описать её подробно, заполните <a href="../brief/">бриф</a>.</p></div>
+<p>Если задача большая и хочется описать её подробно, заполните <a href="../brief/">бриф</a>.</p></div>
     </div>
   </section>
-  <section class="section section--light sec sec--related"><div class="container"><div class="shead"><p class="label">Смотрите также</p><h2 class="h2s">Что ещё посмотреть</h2></div><div class="lcards lcards--related"><a class="lcard" href="../calculator/"><span class="lcard__title">Калькулятор</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../brief/"><span class="lcard__kicker">Старт проекта</span><span class="lcard__title">Бриф</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../process/"><span class="lcard__kicker">О работе</span><span class="lcard__title">Как я работаю</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a><a class="lcard" href="../faq/"><span class="lcard__kicker">О работе</span><span class="lcard__title">FAQ</span><svg class="ico-arrow"><use href="#i-arrow"/></svg></a></div></div></section>
   
 </main>
 
@@ -165,32 +175,26 @@
     <div class="footer__cols">
       <nav class="footer__col" aria-label="Навигация">
         <p class="footer__h">Навигация</p>
-        <a href="../">Главная</a><a href="../about/">Обо мне</a><a href="../portfolio/">Портфолио</a><a href="../reviews/">Отзывы</a><a href="../process/">Как я работаю</a><a href="../blog/">Блог</a><a href="../contact/">Контакты</a>
+        <a href="../">Главная</a><a href="../#about">Обо мне</a><a href="../#services">Услуги</a><a href="../portfolio/complex/">Кейсы</a><a href="../contact/">Контакты</a>
       </nav>
       <nav class="footer__col" aria-label="Услуги">
         <p class="footer__h">Услуги</p>
-        <a href="../brand-identity/">Фирменный стиль</a><a href="../web-design/">Сайты и разработка</a><a href="../3d/">3D-визуализация</a><a href="../packaging/">Упаковка</a><a href="../presentation/">Презентации</a><a href="../infographic/">Инфографика</a><a href="../calculator/">Калькулятор</a>
-      </nav>
-      <nav class="footer__col" aria-label="Отрасли">
-        <p class="footer__h">Отрасли</p>
-        <a href="../industry/manufacturing/">Производство</a><a href="../industry/export/">Экспорт</a><a href="../industry/b2b/">B2B</a><a href="../industry/startup/">Стартапы</a><a href="../industry/agritech/">Агротех</a>
+        <a href="../portfolio/complex/">Комплексные работы</a><a href="../brand-identity/">Брендинг</a><a href="../web-design/">Разработка</a><a href="../3d/">3D-визуализация</a>
       </nav>
       <nav class="footer__col" aria-label="Контакты">
         <p class="footer__h">Контакты</p>
         <a href="https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_mceY" target="_blank" rel="noopener">Макс</a>
         <a href="https://t.me/Vadim_Parshukov" target="_blank" rel="noopener">Телеграм</a>
         <a href="https://wa.me/79537808623" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="../brief/">Заполнить бриф</a>
       </nav>
       <nav class="footer__col" aria-label="Соцсети">
         <p class="footer__h">Соцсети</p>
-        <a href="https://www.behance.net/vadimporsh" target="_blank" rel="noopener">Behance</a>
         <a href="https://www.linkedin.com/in/vadim-parshukov-b2021a212/en" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://www.instagram.com/vadim_parshukov/" target="_blank" rel="noopener">Instagram*</a>
       </nav>
     </div>
     <div class="footer__meta">
-      <p class="footer__docs"><a class="footer__privacy" href="../privacy-policy/">Политика конфиденциальности</a><a class="footer__privacy" href="../terms-of-service/">Пользовательское соглашение</a><a class="footer__privacy" href="../sitemap/">Карта сайта</a></p>
+      <p class="footer__docs"><a class="footer__privacy" href="../privacy-policy/">Политика конфиденциальности</a></p>
       <p class="footer__disclaimer">*Meta Platforms Inc. признана экстремистской организацией, её деятельность запрещена на территории Российской Федерации.</p>
     </div>
     <div class="wordmark footer__wordmark" aria-hidden="true">PARSHUKOV</div>
