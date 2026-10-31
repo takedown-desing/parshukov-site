@@ -32,8 +32,10 @@ MAX = "https://max.ru/u/f9LHodD0cOIs4CHhwMIhBUViP9rKrKHaghDD8JHPwcmXLQgLXrDkUR_m
 SOCIAL = [("Behance", "https://www.behance.net/vadimporsh"),
           ("LinkedIn", "https://www.linkedin.com/in/vadim-parshukov-b2021a212/en"),
           ("Instagram*", "https://www.instagram.com/vadim_parshukov/")]
-THREADS = ""  # ссылку на Threads ждём от Вадима
-EMAIL = ""  # рабочий email ждём от Вадима: подвал, «Или напишите сразу», политика
+THREADS = "https://www.threads.com/@vadim_parshukov"
+EMAIL = "Vadim.parshukov.199d@mail.ru"  # подвал, «Или напишите сразу», политика, адресат форм
+# Формы шлют JSON в FormSubmit, он пересылает заявку на EMAIL (первая отправка присылает письмо активации)
+FORM_ENDPOINT = f"https://formsubmit.co/ajax/{EMAIL}"
 
 PERSON = {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": "Графический и индустриальный дизайнер",
           "url": SITE_URL + "/about/", "sameAs": [SOCIAL[0][1], SOCIAL[1][1], TG]}
@@ -42,19 +44,21 @@ PERSON = {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": 
 FALLBACK_NAMES = {"/": "Главная", "/sitemap/": "Карта сайта"}
 
 # Меню: (название, url, подпункты)
-SERVICES_MENU = [("Фирменный стиль", "/brand-identity/"), ("3D-визуализация", "/3d/"), ("Сайты", "/web-design/"),
-                 ("Презентации и каталоги", "/presentation/"), ("Дизайн-поддержка", "/design-support/")]
+# Услуги пока ведут на те же страницы, что и кейсы (правки Вадима 31.10): у них внизу блок цен
+SERVICES_MENU = [("Фирменный стиль", "/portfolio/branding/"), ("Сайты", "/portfolio/web/"),
+                 ("3D-визуализация", "/portfolio/3d/"), ("Комплексные решения", "/portfolio/complex/"),
+                 ("Презентации и каталоги", "/portfolio/catalogs/"), ("Дизайн-поддержка", "/design-support/")]
 CASES_MENU = [("Фирменный стиль", "/portfolio/branding/"), ("Сайты", "/portfolio/web/"),
               ("3D-визуализация", "/portfolio/3d/"), ("Комплексные решения", "/portfolio/complex/"),
               ("Презентации и каталоги", "/portfolio/catalogs/")]
-NAV = [("Обо мне", "/#about", None), ("Услуги", None, SERVICES_MENU), ("Кейсы", None, CASES_MENU),
+NAV = [("Главная", "/", None), ("Обо мне", "/#about", None), ("Услуги", None, SERVICES_MENU), ("Кейсы", None, CASES_MENU),
        ("Контакты", "/contact/", None)]
 
 FOOTER_COLS = [
     ("Навигация", [("Главная", "/"), ("Обо мне", "/#about"), ("Услуги", "/#services"), ("Кейсы", "/portfolio/complex/"),
                    ("Контакты", "/contact/")]),
-    ("Услуги", [("Комплексные работы", "/portfolio/complex/"), ("Брендинг", "/brand-identity/"),
-                ("Разработка", "/web-design/"), ("3D-визуализация", "/3d/")]),
+    ("Услуги", [("Комплексные работы", "/portfolio/complex/"), ("Брендинг", "/portfolio/branding/"),
+                ("Разработка", "/portfolio/web/"), ("3D-визуализация", "/portfolio/3d/")]),
 ]
 
 # Группы HTML-карты сайта: заголовок -> отбор страниц
@@ -124,7 +128,9 @@ def calc_html(rel):
     final = f"""<div class="calc__step calc__final" hidden data-step="3">
           <p class="calc__step-title">Провести онлайн-встречу</p>
           <p class="calc__hint">Обсудим задачи, уточним объём работ и оперативно запустим процесс.</p>
-          <form class="calc__form" id="calc-form" novalidate data-endpoint="">
+          <form class="calc__form" id="calc-form" novalidate data-endpoint="{FORM_ENDPOINT}">
+            <input type="hidden" name="_subject" value="Заявка с калькулятора на сайте">
+            <input type="hidden" name="_template" value="table">
             <label class="hp" aria-hidden="true">Не заполняйте это поле <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
             <div class="form__row">
               <label class="field"><span class="sr-only">Телефон для связи</span><input type="tel" name="phone" placeholder="* Телефон для связи" autocomplete="tel" required maxlength="30"></label>
@@ -435,12 +441,21 @@ def ex_head(name, tag="h2"):
             f'<span class="ex-head__name">{esc(name)}</span></{tag}>')
 
 
+def ext_link(url, inner, cls):
+    """Ссылка на чужой сайт: nofollow, чтобы не передавать вес, и <!--noindex--> для Яндекса"""
+    return (f'<!--noindex--><a class="{cls}" href="{url}" target="_blank" rel="nofollow noopener noreferrer">'
+            f'{inner}</a><!--/noindex-->')
+
+
 def b_own(text, params, ctx, **_):
-    return f'<div class="own"><p class="own__k">От себя:</p><div class="own__body">{md(text, ctx)}</div></div>'
+    """Первый абзац: синий подзаголовок, остальное: текст за серым пунктиром"""
+    lead, _, rest = text.strip().partition("\n\n")
+    return (f'<div class="own"><p class="own__k">От себя:</p><p class="own__lead">{md(lead, ctx, True)}</p>'
+            f'<div class="own__body">{md(rest, ctx)}</div></div>')
 
 
 def b_case(text, params, ctx, **_):
-    """:::case name="СОКОЛ" pills="а|б|в" img=web/sokol [n=8] [layout=grid|laptop|row] [site=https://…]"""
+    """:::case name="СОКОЛ" pills="а|б|в" img=web/sokol [n=8] [layout=grid|laptop|row] [site=https://…] [pres=1]"""
     name = params["name"]
     pills = "".join(f"<li>{esc(x.strip())}</li>" for x in params.get("pills", "").split("|") if x.strip())
     n = int(params.get("n", 1))
@@ -450,8 +465,10 @@ def b_case(text, params, ctx, **_):
     parts = "".join(f'<div class="case__part"><h3 class="case__label">{md(t, ctx, True)}</h3>'
                     f'<div class="case__text">{md(b, ctx)}</div></div>' for t, b in split_items(text))
     site = params.get("site")
-    link = (f'<a class="case__site" href="{site}" target="_blank" rel="noopener">Смотреть сайт компании {arrow()}</a>'
-            if site else "")
+    link = ext_link(site, f'Смотреть сайт компании {arrow()}', "case__site") if site else ""
+    if params.get("pres"):  # окно запроса презентации, см. v3-pages.js
+        link += (f'<button class="btn btn--line case__pres" type="button" data-project="{esc(name)}" '
+                 f'data-policy="{ctx.rel("/privacy-policy/")}" data-endpoint="{FORM_ENDPOINT}">Получить презентацию проекта</button>')
     return (f'<article class="case case--{params.get("layout", "grid")}">{ex_head(name)}'
             + (f'<ul class="pills">{pills}</ul>' if pills else "")
             + f'<div class="case__body"><div class="case__info">{parts}{link}</div>'
@@ -478,7 +495,7 @@ def b_tiles(text, params, ctx, **_):
                 geo = f'<span class="tile__geo">{flags}<span>{esc(cap.strip())}</span></span>'
             elif k.strip() == "link":
                 lt, _, lu = v.partition("|")
-                link = f' <a class="tile__link" href="{lu.strip()}" target="_blank" rel="noopener">{esc(lt.strip())}</a>'
+                link = " " + ext_link(lu.strip(), esc(lt.strip()), "tile__link")
             elif line.strip():
                 sub.append(line.strip())
         out.append(f'<figure class="tile"><div class="tile__img">{img}</div><figcaption><b class="tile__name">{esc(title)}</b>'
@@ -497,6 +514,7 @@ def home_part(pattern, ctx):
     h = (OUT / "index.html").read_text(encoding="utf-8")
     part = re.search(pattern, h, re.S).group(0)
     part = part.replace('"../shared/', f'"{ctx.asset("shared/")}')
+    part = part.replace(f'name="page" value="{SITE_URL}/"', f'name="page" value="{SITE_URL}{ctx.url}"')
     return re.sub(r'href="(brief/|privacy-policy/)"', lambda m: f'href="{ctx.rel("/" + m.group(1))}"', part)
 
 
@@ -593,7 +611,11 @@ def lead_form(ctx, brief=False):
         </fieldset>"""
     msg = ("Расскажите о компании, продукте и задаче: что нужно сделать, для кого, к какому сроку, есть ли примеры, "
            "которые нравятся" if brief else "Предварительная информация")
-    return f"""<form class="form" id="lead-form" novalidate data-endpoint="">
+    subject = "Бриф с сайта" if brief else "Заявка с сайта"
+    return f"""<form class="form" id="lead-form" novalidate data-endpoint="{FORM_ENDPOINT}">
+        <input type="hidden" name="_subject" value="{subject}">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="page" value="{SITE_URL}{ctx.url}">
         <label class="hp" aria-hidden="true">Не заполняйте это поле <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
         <div class="form__row">
           <label class="field"><span class="sr-only">Ваше имя</span><input type="text" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="100"></label>
@@ -629,9 +651,9 @@ def lead_form(ctx, brief=False):
       <div class="messengers">
         <p class="messengers__title">Или напишите сразу</p>
         <div class="messengers__btns">
-          <a class="btn btn--black" href="{TG}" target="_blank" rel="noopener">Telegram</a>
-          <a class="btn btn--black" href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="btn btn--black" href="{MAX}" target="_blank" rel="noopener">MAX</a>{email_btn("btn--black")}
+          <a class="btn btn--black" href="{TG}" target="_blank" rel="nofollow noopener">Telegram</a>
+          <a class="btn btn--black" href="{WA}" target="_blank" rel="nofollow noopener">WhatsApp</a>
+          <a class="btn btn--black" href="{MAX}" target="_blank" rel="nofollow noopener">MAX</a>{email_btn("btn--black")}
         </div>
       </div>"""
 
@@ -674,16 +696,16 @@ def nav_html(ctx, current, mobile=False):
                            f'aria-haspopup="true" aria-expanded="false">{name}<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" '
                            f'fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="nav__menu">{links}</div></div>')
         else:
-            act = " aria-current=page" if current == url else (" class=is-active" if current.startswith(url) else "")
+            act = " aria-current=page" if current == url else (" class=is-active" if url != "/" and current.startswith(url) else "")
             out.append(f'<a href="{ctx.rel(url)}"{act}>{name}</a>')
     return "\n      ".join(out)
 
 
 def header_html(ctx, current):
     cta = "#contact" if current == "/" else ctx.rel("/contact/")
-    socials = (f'<a href="{TG}" target="_blank" rel="noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>\n'
-               f'      <a href="{WA}" target="_blank" rel="noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>\n'
-               f'      <a href="{MAX}" target="_blank" rel="noopener" aria-label="MAX" class="soc"><svg><use href="#i-max"/></svg></a>')
+    socials = (f'<a href="{TG}" target="_blank" rel="nofollow noopener" aria-label="Telegram" class="soc"><svg><use href="#i-tg"/></svg></a>\n'
+               f'      <a href="{WA}" target="_blank" rel="nofollow noopener" aria-label="WhatsApp" class="soc"><svg><use href="#i-wa"/></svg></a>\n'
+               f'      <a href="{MAX}" target="_blank" rel="nofollow noopener" aria-label="MAX" class="soc"><svg><use href="#i-max"/></svg></a>')
     return f"""<header class="header" id="top">
   <div class="container header__inner">
     <a class="logo" href="{ctx.rel('/')}">Вадим Паршуков</a>
@@ -715,12 +737,12 @@ def footer_html(ctx):
         cols.append(f'<nav class="footer__col" aria-label="{title}">\n        <p class="footer__h">{title}</p>\n        {a}\n      </nav>')
     cols.append(f"""<nav class="footer__col" aria-label="Контакты">
         <p class="footer__h">Контакты</p>
-        <a href="{MAX}" target="_blank" rel="noopener">Макс</a>
-        <a href="{TG}" target="_blank" rel="noopener">Телеграм</a>
-        <a href="{WA}" target="_blank" rel="noopener">WhatsApp</a>{f'{chr(10)}        <a href="mailto:{EMAIL}">Email</a>' if EMAIL else ""}
+        <a href="{MAX}" target="_blank" rel="nofollow noopener">Макс</a>
+        <a href="{TG}" target="_blank" rel="nofollow noopener">Телеграм</a>
+        <a href="{WA}" target="_blank" rel="nofollow noopener">WhatsApp</a>{f'{chr(10)}        <a href="mailto:{EMAIL}">Email</a>' if EMAIL else ""}
       </nav>""")
     social = SOCIAL[1:] + ([("Threads", THREADS)] if THREADS else [])
-    soc = "".join(f'\n        <a href="{u}" target="_blank" rel="noopener">{n}</a>' for n, u in social)
+    soc = "".join(f'\n        <a href="{u}" target="_blank" rel="nofollow noopener">{n}</a>' for n, u in social)
     cols.append(f'<nav class="footer__col" aria-label="Соцсети">\n        <p class="footer__h">Соцсети</p>{soc}\n      </nav>')
     nl = "\n      "
     return f"""<footer class="footer">
@@ -843,10 +865,13 @@ def body_html(page, ctx, pages, manifest):
         return (f'<section class="section section--light sec doc-sec"><div class="container">'
                 f'<div class="doc">{"".join(chunks)}</div></div></section>')
     if page["type"] == "cases":
-        chunks = [(f'<h2 class="h2s">{md(s["h2"], ctx, True)}</h2>' if s["h2"] else "")
-                  + render_parts(s["parts"], ctx, page, pages, manifest) for s in sections]
-        return (f'<section class="section section--light sec cs"><div class="container">{"".join(chunks)}</div></section>'
-                f'\n  {contact_sec(ctx)}\n  {works_sec(ctx)}')
+        # Кейсы идут одним блоком; разделы с заголовком (цены) стоят под ними, перед формой
+        cases = "".join(render_parts(s["parts"], ctx, page, pages, manifest) for s in sections if not s["h2"])
+        extra = "".join(f'<section class="section section--{s["attrs"].get("tone", "light")} sec">\n    <div class="container">'
+                        f'\n      {h2_head(s["h2"], s["attrs"], ctx)}\n      {render_parts(s["parts"], ctx, page, pages, manifest)}'
+                        f'\n    </div>\n  </section>\n  ' for s in sections if s["h2"])
+        return (f'<section class="section section--light sec cs"><div class="container">{cases}</div></section>'
+                f'\n  {extra}{contact_sec(ctx)}\n  {works_sec(ctx)}')
     out, prev = [], None
     for i, s in enumerate(sections):
         blocks = [p for p in s["parts"] if not (p[0] == "md" and not p[1].strip())]

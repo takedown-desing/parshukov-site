@@ -86,7 +86,7 @@ PAGES = [
 # Опубликованные страницы (MVP по правкам Вадима от 30.10.2026). Остальные исходники лежат в content/v3,
 # но не собираются; ссылки на них из живых страниц check_content.py считает ошибкой.
 LIVE = {
-    "/", "/brand-identity/", "/3d/", "/web-design/", "/presentation/", "/design-support/",
+    "/", "/design-support/",
     "/portfolio/branding/", "/portfolio/web/", "/portfolio/3d/", "/portfolio/complex/", "/portfolio/catalogs/",
     "/contact/", "/brief/", "/reviews/", "/404/", "/sitemap/", "/privacy-policy/", "/terms-of-service/",
 }

@@ -71,6 +71,96 @@
     });
   }
 
+  // «Получить презентацию проекта»: окно с email, заявка с названием проекта уходит на почту
+  var presBtns = document.querySelectorAll(".case__pres");
+  if (presBtns.length) {
+    var pop = document.createElement("div");
+    pop.className = "pop";
+    pop.hidden = true;
+    pop.setAttribute("role", "dialog");
+    pop.setAttribute("aria-modal", "true");
+    pop.setAttribute("aria-labelledby", "pop-title");
+    pop.innerHTML = '<form class="pop__box" novalidate>' +
+      '<button class="pop__close" type="button" aria-label="Закрыть">&#10005;</button>' +
+      '<p class="pop__title" id="pop-title">Получить презентацию проекта</p>' +
+      '<p class="pop__project"></p>' +
+      '<p class="pop__text">Оставьте email, и я пришлю полную презентацию проекта.</p>' +
+      '<label class="hp" aria-hidden="true">Не заполняйте это поле <input type="text" name="website" tabindex="-1" autocomplete="off"></label>' +
+      '<label class="field"><span class="sr-only">Email</span><input type="email" name="email" placeholder="* Email" autocomplete="email" required maxlength="150"></label>' +
+      '<label class="check"><input type="checkbox" name="consent" required><span class="check__box"><svg><use href="#i-check"/></svg></span><span>Я согласен с <a class="pop__policy link" href="#" target="_blank">политикой конфиденциальности</a></span></label>' +
+      '<button class="btn btn--blue pop__send" type="submit">Получить презентацию</button>' +
+      '<p class="form__status" role="status" aria-live="polite"></p></form>';
+    document.body.appendChild(pop);
+    var popForm = pop.querySelector("form");
+    var popStatus = pop.querySelector(".form__status");
+    var popSend = pop.querySelector(".pop__send");
+    var popClose = pop.querySelector(".pop__close");
+    var popBtn = null;
+    var closePop = function () {
+      if (pop.hidden) return;
+      pop.hidden = true;
+      document.documentElement.classList.remove("is-locked");
+      if (popBtn) popBtn.focus();
+    };
+    var popError = function (input, on) {
+      input.closest(".field, .check").classList.toggle("is-error", on);
+      input.setAttribute("aria-invalid", on ? "true" : "false");
+    };
+    Array.prototype.forEach.call(presBtns, function (b) {
+      b.addEventListener("click", function () {
+        popBtn = b;
+        popForm.reset();
+        popStatus.className = "form__status";
+        popStatus.textContent = "";
+        pop.querySelector(".pop__project").textContent = b.getAttribute("data-project");
+        pop.querySelector(".pop__policy").href = b.getAttribute("data-policy");
+        pop.hidden = false;
+        document.documentElement.classList.add("is-locked");
+        popForm.elements.email.focus();
+      });
+    });
+    popClose.addEventListener("click", closePop);
+    pop.addEventListener("click", function (e) {
+      if (e.target === pop) closePop();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closePop();
+    });
+    popForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = popForm.elements.email;
+      var consent = popForm.elements.consent;
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      popError(email, !emailOk);
+      popError(consent, !consent.checked);
+      popStatus.className = "form__status";
+      if (!emailOk || !consent.checked) {
+        popStatus.textContent = "Проверьте email и отметьте согласие с политикой конфиденциальности.";
+        popStatus.classList.add("is-error");
+        return;
+      }
+      if (popForm.elements.website.value) return; // honeypot
+      var project = popBtn.getAttribute("data-project");
+      popSend.disabled = true;
+      fetch(popBtn.getAttribute("data-endpoint"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ _subject: "Запрос презентации: " + project, _template: "table",
+          project: project, email: email.value.trim(), page: location.href })
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        popForm.reset();
+        popStatus.textContent = "Спасибо! Пришлю презентацию на указанный email.";
+        popStatus.classList.add("is-ok");
+      }).catch(function () {
+        popStatus.textContent = "Не получилось отправить. Попробуйте ещё раз или напишите в Telegram.";
+        popStatus.classList.add("is-error");
+      }).then(function () {
+        popSend.disabled = false;
+      });
+    });
+  }
+
   // Лента работ: стрелки листают её на ширину экрана
   Array.prototype.forEach.call(document.querySelectorAll(".works"), function (w) {
     var strip = w.querySelector(".works__strip");
