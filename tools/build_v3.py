@@ -858,7 +858,11 @@ def hero_html(page, ctx, pages, manifest):
     if t == "article":
         d = page.get("date")
         dd = d.strftime("%d.%m.%Y") if hasattr(d, "strftime") else str(d)
-        meta = f'<p class="phero__meta"><time datetime="{d}">{dd}</time><span>{page.get("read_time")} мин чтения</span><span>Вадим Паршуков</span></p>'
+        up = page.get("updated")
+        upd = (f'<span>Обновлено <time datetime="{up}">{up.strftime("%d.%m.%Y") if hasattr(up, "strftime") else up}</time></span>'
+               if up and str(up) != str(d) else "")
+        meta = (f'<p class="phero__meta"><time datetime="{d}">{dd}</time>{upd}<span>{page.get("read_time")} мин чтения</span>'
+                f'<span>Вадим Паршуков</span></p>')
     btns = ""
     plain = page.get("hero") == "plain" or t == "cases"  # компактный hero без картинки и кнопок
     if not plain and (t in ("service", "industry", "hub", "case") or page["url"] in ("/about/", "/process/", "/reviews/")):
@@ -911,6 +915,15 @@ def h2_head(h2, attrs, ctx, light=False, idx=None):
     return f'<div class="shead">{label}<h2 class="h2s"{ida}>{md(h2, ctx, True)}</h2></div>'
 
 
+def author_box(ctx):
+    """Блок автора внизу статьи: кто пишет и почему ему можно верить."""
+    return (f'<aside class="author-box" aria-label="Об авторе"><p class="author-box__k">Автор</p>'
+            f'<p class="author-box__name"><a href="{ctx.rel("/about/")}">Вадим Паршуков</a></p>'
+            f'<p class="author-box__text">Графический и индустриальный дизайнер. Больше 10 лет в дизайне, 1440+ проектов '
+            f'для компаний из 15+ отраслей и 6+ стран. Пишу о том, что делаю сам: фирменный стиль, сайты, презентации '
+            f'и 3D для производства и B2B.</p></aside>')
+
+
 LEGAL = ("/privacy-policy/", "/terms-of-service/")
 
 
@@ -930,7 +943,7 @@ def body_html(page, ctx, pages, manifest):
                  f'<a class="btn btn--blue" href="{ctx.rel("/#calculator")}">Рассчитать стоимость</a>'
                  f'<a class="btn btn--line" href="{ctx.rel("/contact/")}">Обсудить проект</a></div></aside>')
         return (f'<section class="section section--light sec article"><div class="container article__grid">'
-                f'<div class="article__body">{"".join(chunks)}</div>{aside}</div></section>')
+                f'<div class="article__body">{"".join(chunks)}{author_box(ctx)}</div>{aside}</div></section>')
     if page["url"] in LEGAL:
         chunks = []
         for i, s in enumerate(sections):
@@ -996,7 +1009,7 @@ def jsonld(page, ctx, pages, manifest):
         data.append(d)
     elif t == "article":
         d = dict(base, **{"@type": "BlogPosting", "headline": page["h1"], "author": PERSON,
-                          "datePublished": str(page.get("date")), "dateModified": str(page.get("date")),
+                          "datePublished": str(page.get("date")), "dateModified": str(page.get("updated") or page.get("date")),
                           "mainEntityOfPage": url, "publisher": PERSON})
         if image:
             d["image"] = image
