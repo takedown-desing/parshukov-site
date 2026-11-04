@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "v3"
 OUT = ROOT / "v3"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pages import PAGES, BY_URL, LIVE  # noqa: E402
+from pages import PAGES, BY_URL, LIVE, STAGE  # noqa: E402
 
 SITE_URL = "https://takedown-desing.github.io/parshukov-site/v3"
 TODAY = date.today().isoformat()
@@ -442,9 +442,25 @@ def ex_head(name, tag="h2"):
 
 
 def ext_link(url, inner, cls):
-    """Ссылка на чужой сайт: nofollow, чтобы не передавать вес, и <!--noindex--> для Яндекса"""
-    return (f'<!--noindex--><a class="{cls}" href="{url}" target="_blank" rel="nofollow noopener noreferrer">'
-            f'{inner}</a><!--/noindex-->')
+    """Ссылка на чужой сайт, rel проставляет ext_rel"""
+    return f'<a class="{cls}" href="{url}" target="_blank" rel="noreferrer">{inner}</a>'
+
+
+def ext_rel(h):
+    """Все ссылки на чужие сайты: rel="nofollow noindex noopener", без обёрток <!--noindex-->"""
+    h = h.replace("<!--noindex-->", "").replace("<!--/noindex-->", "")
+
+    def fix(m):
+        tag = m.group(0)
+        href = re.search(r'href="([^"]*)"', tag)
+        if not href or not re.match(r"https?://", href.group(1)) or href.group(1).startswith(SITE_URL.split("/parshukov-site")[0]):
+            return tag
+        old = re.search(r'\srel="([^"]*)"', tag)
+        rel = "nofollow noindex noopener" + (" noreferrer" if old and "noreferrer" in old.group(1) else "")
+        tag = tag.replace(old.group(0), "") if old else tag
+        return tag.replace(href.group(0), f'{href.group(0)} rel="{rel}"', 1)
+
+    return re.sub(r"<a\b[^>]*>", fix, h)
 
 
 def b_own(text, params, ctx, **_):
@@ -730,10 +746,34 @@ def header_html(ctx, current):
 </header>"""
 
 
-def footer_html(ctx):
+def cookie_html(ctx):
+    """Уведомление о cookie (152-ФЗ, тексты Вадима из «Куки.docx»). Показ и выбор: shared/js/site.js, cookie vp_cookie"""
+    policy = ctx.rel("/privacy-policy/#s9")
+    return f"""<aside class="cookie" id="cookie" hidden aria-label="Использование файлов Cookie">
+  <div class="container">
+    <div class="cookie__card">
+      <div class="cookie__body">
+        <p class="cookie__title">Использование файлов Cookie</p>
+        <p class="cookie__text">На сайте используются технические файлы Cookie, необходимые для корректной работы сайта, сохранения настроек и обеспечения безопасности. Нажимая «Принять», вы соглашаетесь на использование файлов Cookie. Подробнее: в <a href="{policy}">Политике обработки персональных данных</a>.</p>
+        <div class="cookie__actions">
+          <button type="button" class="btn btn--black cookie__btn" data-cookie="all">Принять</button>
+          <button type="button" class="btn cookie__btn cookie__btn--ghost" data-cookie="necessary">Отклонить необязательные Cookie</button>
+          <a class="cookie__more" href="{policy}">Подробнее</a>
+        </div>
+      </div>
+      <img class="cookie__img" src="{ctx.asset('shared/img/cookie.webp')}" alt="" width="170" height="144" loading="lazy" decoding="async">
+    </div>
+  </div>
+</aside>"""
+
+
+def footer_html(ctx, seo=False):
+    """seo=True: ссылка «SEO по тематикам» под навигацией (только когда хаб /industry/ собран, то есть на полигоне)"""
     cols = []
     for title, links in FOOTER_COLS:
         a = "".join(f'<a href="{ctx.rel(u)}">{esc(n)}</a>' for n, u in links)
+        if seo and title == "Навигация":
+            a += f'<a class="footer__seo" href="{ctx.rel("/industry/")}">SEO по тематикам</a>'
         cols.append(f'<nav class="footer__col" aria-label="{title}">\n        <p class="footer__h">{title}</p>\n        {a}\n      </nav>')
     cols.append(f"""<nav class="footer__col" aria-label="Контакты">
         <p class="footer__h">Контакты</p>
@@ -760,6 +800,7 @@ def footer_html(ctx):
       <p>© 2026 Вадим Паршуков. Все права защищены.</p>
     </div>
   </div>
+{cookie_html(ctx)}
 </footer>"""
 
 
@@ -963,8 +1004,7 @@ def render(page, pages, manifest):
     hero = hero_html(page, ctx, pages, manifest)
     cta = "" if page["url"] in ("/contact/", "/404/") or "blk--cta" in main or page["type"] == "cases" else cta_html(ctx)
     main_html = typograph(f"{hero}\n  {main}\n  {cta}")
-    cover = page_cover(page["url"], manifest)
-    og_img = f'{SITE_URL.rsplit("/", 1)[0]}/shared/img/{cover["file"] if cover else "hero-main.webp"}'
+    og_img = f'{SITE_URL.rsplit("/", 1)[0]}/shared/img/og.png'  # баннер 1200x630 от Вадима (03.11.2026)
     is404 = page["url"] == "/404/"
     calc = "blk--calculator" in main
     head_extra = jsonld(page, ctx, pages, manifest) if not is404 else ""
@@ -975,6 +1015,7 @@ def render(page, pages, manifest):
   <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="{ctx.asset('favicon.svg')}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{ctx.asset('apple-touch-icon.png')}">
   <title>{esc(page["title"])}</title>
   <meta name="description" content="{esc(page["description"])}">
   {"" if is404 else f'<link rel="canonical" href="{SITE_URL}{page["url"]}">'}
@@ -983,9 +1024,12 @@ def render(page, pages, manifest):
   <meta property="og:description" content="{esc(page["description"])}">
   <meta property="og:url" content="{SITE_URL}{page["url"]}">
   <meta property="og:image" content="{og_img}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:site_name" content="Вадим Паршуков">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{og_img}">
   <link rel="preload" href="{ctx.asset('shared/fonts/Unbounded-SemiBold.woff')}" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="{ctx.asset('shared/fonts/Montserrat-Medium.woff')}" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="{ctx.asset('shared/fonts/fonts.css')}">
@@ -1005,7 +1049,7 @@ def render(page, pages, manifest):
   {main_html}
 </main>
 
-{footer_html(ctx)}
+{footer_html(ctx, seo="/industry/" in pages)}
 
 <script src="{ctx.asset('shared/js/site.js')}" defer></script>
 <script src="{ctx.asset('shared/js/v3-pages.js')}" defer></script>
@@ -1021,7 +1065,7 @@ def update_home(pages):
     h = p.read_text(encoding="utf-8")
     ctx = Ctx("/")
     h = re.sub(r'<header class="header" id="top">.*?</header>', lambda m: header_html(ctx, "/"), h, count=1, flags=re.S)
-    h = re.sub(r'<footer class="footer">.*?</footer>', lambda m: footer_html(ctx), h, count=1, flags=re.S)
+    h = re.sub(r'<footer class="footer">.*?</footer>', lambda m: footer_html(ctx, seo="/industry/" in pages), h, count=1, flags=re.S)
     # калькулятор вместо плашки «Калькулятор готовится»
     block = (f'<!-- calc:start -->\n  <section class="section section--light sec calc-sec" id="calculator">\n    <div class="container">\n'
              f'      {calc_head()}\n      {calc_html(ctx.rel)}\n    </div>\n  </section>\n  <!-- calc:end -->')
@@ -1045,7 +1089,7 @@ def update_home(pages):
                       '<script src="../shared/js/calculator.js" defer></script>')
     if f'<link rel="canonical"' not in h:
         h = h.replace('  <meta name="description"', f'  <link rel="canonical" href="{SITE_URL}/">\n  <meta name="description"', 1)
-    p.write_text(h, encoding="utf-8")
+    p.write_text(ext_rel(h), encoding="utf-8")
 
 
 def calc_head():
@@ -1055,20 +1099,22 @@ def calc_head():
 
 
 def main():
+    # --stage: тестовый полигон на GitHub Pages (LIVE плюс хаб «SEO по тематикам»), без флага: боевой набор
+    active = STAGE if "--stage" in sys.argv[1:] else LIVE
     manifest = load_manifest()
     pages = {}
     for url, slug, parent in PAGES:
-        if url == "/" or url not in LIVE:
+        if url == "/" or url not in active:
             continue
         meta = load_page(slug)
         if meta is None:
             continue
         meta["url"] = url
         pages[url] = meta
-    missing = [u for u in LIVE if u != "/" and u not in pages]
+    missing = [u for u in active if u != "/" and u not in pages]
     # снятые с публикации страницы: удаляем их собранные index.html и опустевшие папки
     for url, _, _ in PAGES:
-        if url not in LIVE:
+        if url not in active:
             f = OUT / url.strip("/") / "index.html"
             if f.exists():
                 f.unlink()
@@ -1077,7 +1123,7 @@ def main():
             d.rmdir()
     built = 0
     for url, page in pages.items():
-        html_out = render(page, pages, manifest)
+        html_out = ext_rel(render(page, pages, manifest))
         if "—" in html_out:
             print(f"  ! длинное тире на {url}")
         dest = OUT / url.strip("/") / "index.html"

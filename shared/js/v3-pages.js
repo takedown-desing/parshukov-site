@@ -142,12 +142,8 @@
       if (popForm.elements.website.value) return; // honeypot
       var project = popBtn.getAttribute("data-project");
       popSend.disabled = true;
-      fetch(popBtn.getAttribute("data-endpoint"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({ _subject: "Запрос презентации: " + project, _template: "table",
-          project: project, email: email.value.trim(), page: location.href })
-      }).then(function (r) {
+      window.vpSend(popBtn.getAttribute("data-endpoint"), { _subject: "Запрос презентации: " + project,
+        _template: "table", project: project, email: email.value.trim(), page: location.href }).then(function (r) {
         if (!r.ok) throw new Error(r.status);
         popForm.reset();
         popStatus.textContent = "Спасибо! Пришлю презентацию на указанный email.";

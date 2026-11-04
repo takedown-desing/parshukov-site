@@ -222,8 +222,8 @@
 
     if (!endpoint) {
       status.innerHTML = 'Форма пока не подключена к серверу. Напишите напрямую в <a href="' + root.getAttribute("data-tg") +
-        '" target="_blank" rel="noopener">Telegram</a> или <a href="' + root.getAttribute("data-wa") +
-        '" target="_blank" rel="noopener">WhatsApp</a>, расчёт можно приложить скриншотом.';
+        '" target="_blank" rel="nofollow noindex noopener">Telegram</a> или <a href="' + root.getAttribute("data-wa") +
+        '" target="_blank" rel="nofollow noindex noopener">WhatsApp</a>, расчёт можно приложить скриншотом.';
       return;
     }
 
@@ -235,11 +235,7 @@
     data.payment = outPay.textContent;
     data.discount = disc.checked;
     btnSend.disabled = true;
-    fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    }).then(function (r) {
+    window.vpSend(endpoint, data).then(function (r) {
       if (!r.ok) throw new Error(r.status);
       form.reset();
       status.textContent = "Спасибо! Заявка отправлена, свяжусь с вами в выбранном мессенджере и предложу время встречи.";

@@ -91,5 +91,9 @@ LIVE = {
     "/contact/", "/brief/", "/reviews/", "/404/", "/sitemap/", "/privacy-policy/", "/terms-of-service/",
 }
 
+# Тестовый полигон (GitHub Pages, noindex): боевой набор плюс хаб «SEO по тематикам» (правка Вадима 03.11.2026).
+# Собирается `build_v3.py --stage`; на боевой сайт export_prod.py выгружает только LIVE.
+STAGE = LIVE | {"/industry/"}
+
 URLS = {p[0] for p in PAGES}
 BY_URL = {p[0]: p for p in PAGES}
