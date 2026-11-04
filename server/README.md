@@ -7,6 +7,7 @@
 |---|---|
 | Сайт (содержимое `dist/`) | `/var/www/parshukov-site/` |
 | nginx | `/etc/nginx/sites-available/parshukov-site` (копия `server/nginx.conf`) |
+| Заголовки безопасности | `/etc/nginx/snippets/parshukov-headers.conf` (копия `server/nginx-headers.conf`) |
 | Настройки форм | `/etc/parshukov-site/form.env`, root:www-data 640 (образец `server/form.env.example`) |
 | Ошибки отправки | `journalctl -u php8.5-fpm`, `/var/log/nginx/error.log` |
 

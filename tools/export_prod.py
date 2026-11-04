@@ -8,6 +8,7 @@ send.php, robots.txt, sitemap.xml, затем возвращает v3/ в сос
 а robots.txt закрывает сайт целиком (так сайт живёт до подключения домена).
 """
 import argparse
+import hashlib
 import re
 import shutil
 import subprocess
@@ -22,6 +23,8 @@ FORMSUBMIT = re.compile(r"https://formsubmit\.co/ajax/[^\"']+")
 # v3 лежит на уровень глубже корня репозитория, в dist страницы в корне: один «../» лишний
 UP_TO_REPO = re.compile(r"(?<![\w./])((?:\.\./)+)(shared/|favicon\.svg|apple-touch-icon\.png)")
 SKIP = {"NOTES.md", "privacy.html"}
+# Ссылки на свои CSS и JS: к ним добавляется ?v=<хеш файла>, чтобы после правок браузер не брал старую копию из кеша
+ASSET = re.compile(r'((?:href|src)="(?:\.\./|/)*)(shared/[^"?]+\.(?:css|js))"')
 
 METRIKA = 114008431
 # Метрика на всех страницах сразу после <meta charset>, но грузится только после согласия на cookie
@@ -54,11 +57,22 @@ def export(site, index, captcha):
     shutil.copy2(ROOT / "favicon.svg", DIST / "favicon.svg")
     shutil.copy2(ROOT / "apple-touch-icon.png", DIST / "apple-touch-icon.png")
     shutil.copy2(ROOT / "server" / "send.php", DIST / "send.php")
+    # /favicon.ico запрашивают браузеры и Яндекс независимо от <link rel="icon">
+    from PIL import Image
+    Image.open(ROOT / "apple-touch-icon.png").convert("RGBA").save(DIST / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
+    ver = {}
+
+    def version(m):
+        rel = m.group(2)
+        if rel not in ver:
+            ver[rel] = hashlib.md5((DIST / rel).read_bytes()).hexdigest()[:8]
+        return f'{m.group(1)}{rel}?v={ver[rel]}"'
 
     for f in DIST.rglob("*.html"):
         h = f.read_text(encoding="utf-8")
         h = h.replace(GH + "/v3", site).replace(GH + "/", site + "/")
         h = FORMSUBMIT.sub("/send.php", h)
+        h = ASSET.sub(version, h)
         h = UP_TO_REPO.sub(lambda m: m.group(1)[3:] + m.group(2), h)
         if f.parent.name == "404":
             # 404 отдаётся по любому адресу, поэтому пути в ней от корня
@@ -73,7 +87,8 @@ def export(site, index, captcha):
     sm = DIST / "sitemap.xml"
     sm.write_text(sm.read_text(encoding="utf-8").replace(GH + "/v3", site), encoding="utf-8")
     # Адреса с GET-параметрами (utm, yclid и т. п.) закрыты, чтобы не плодить дубли страниц
-    robots = (f"User-agent: *\nDisallow: /*?\n\nSitemap: {site}/sitemap.xml\n" if index
+    # Allow: /shared/ длиннее правила /*?, поэтому CSS и JS с ?v= остаются доступны роботам для отрисовки
+    robots = (f"User-agent: *\nDisallow: /*?\nAllow: /shared/\n\nSitemap: {site}/sitemap.xml\n" if index
               else "User-agent: *\nDisallow: /\n")
     (DIST / "robots.txt").write_text(robots, encoding="utf-8")
 
