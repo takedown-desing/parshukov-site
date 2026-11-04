@@ -194,7 +194,9 @@
     document.cookie = "vp_cookie=" + v + "; max-age=31536000; path=/; SameSite=Lax" + (location.protocol === "https:" ? "; Secure" : "");
   };
   if (read()) return;
-  box.hidden = false;
+  // Показываем после загрузки шрифтов: иначе карточка меняет высоту при подмене шрифта и сдвигает макет (CLS)
+  var show = function () { box.hidden = false; };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(show, show); else show();
   box.addEventListener("click", function (e) {
     var btn = e.target.closest("[data-cookie]");
     if (!btn) return;

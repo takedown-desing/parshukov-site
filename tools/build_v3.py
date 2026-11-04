@@ -37,8 +37,21 @@ EMAIL = "Vadim.parshukov.199d@mail.ru"  # подвал, «Или напишит�
 # Формы шлют JSON в FormSubmit, он пересылает заявку на EMAIL (первая отправка присылает письмо активации)
 FORM_ENDPOINT = f"https://formsubmit.co/ajax/{EMAIL}"
 
-PERSON = {"@type": "Person", "name": "Вадим Паршуков", "jobTitle": "Графический и индустриальный дизайнер",
-          "url": SITE_URL + "/about/", "sameAs": [SOCIAL[0][1], SOCIAL[1][1], TG]}
+# Микроразметка: один Person и один ProfessionalService на весь сайт, страницы ссылаются на них по @id
+HOME = SITE_URL + "/"
+ORIGIN = SITE_URL.rsplit("/", 1)[0]  # корень репозитория: там лежит shared/
+PERSON_ID, BUSINESS_ID, WEBSITE_ID = HOME + "#person", HOME + "#business", HOME + "#website"
+PERSON = {"@type": "Person", "@id": PERSON_ID, "name": "Вадим Паршуков",
+          "jobTitle": "Графический и индустриальный дизайнер", "url": HOME,
+          "image": ORIGIN + "/shared/img/about-phone.webp", "email": EMAIL,
+          "sameAs": [SOCIAL[0][1], SOCIAL[1][1], SOCIAL[2][1], THREADS, TG]}
+PERSON_REF = {"@type": "Person", "@id": PERSON_ID, "name": "Вадим Паршуков"}
+# Авторы рекомендательных писем на /reviews/ (по имени файла letter-<ключ>.webp)
+LETTER_AUTHORS = {"hualian": "Hualian Machinery", "therightmebel": "TheRightMebel", "zhilfond": "Жилфонд",
+                  "kvantserver": "Квантсервер", "vysota": "ООО «Высота»", "sokol": "ООО «СОКОЛ»",
+                  "sfc": "Сибирская футеровочная компания", "prp": "ПРП", "farmbriz": "Фармбриз", "estra": "ЭСТРА",
+                  "kba": "КБА", "ekva": "Эква"}
+LETTER_PEOPLE = {"abakumova": "Светлана Абакумова"}
 
 # Имена служебных страниц, у которых нет своего файла контента (для крошек и карточек «Смотрите также»)
 FALLBACK_NAMES = {"/": "Главная", "/sitemap/": "Карта сайта"}
@@ -267,6 +280,7 @@ class Ctx:
         self.depth = len([x for x in url.strip("/").split("/") if x])
         self.up = "../" * self.depth  # до папки v3
         self.root = self.up + "../"  # до корня репозитория
+        self.works = []  # работы из блоков case и tiles, для микроразметки CreativeWork
 
     def rel(self, u):
         if u.startswith(("http", "mailto:", "#")):
@@ -428,6 +442,13 @@ def b_price(text, params, ctx, **_):
 CASE_IMG = ROOT / "shared" / "img" / "cases"
 
 
+def case_image(rel_file, alt):
+    """ImageObject для картинки кейса из shared/img/cases"""
+    w, h = Image.open(CASE_IMG / f"{rel_file}.webp").size
+    return {"@type": "ImageObject", "contentUrl": f"{ORIGIN}/shared/img/cases/{rel_file}.webp", "width": w, "height": h,
+            "caption": alt, "creator": PERSON_REF, "creditText": "Вадим Паршуков"}
+
+
 def img_tag(ctx, rel_file, alt, cls=""):
     """rel_file: путь внутри shared/img/cases без расширения"""
     f = CASE_IMG / f"{rel_file}.webp"
@@ -478,6 +499,8 @@ def b_case(text, params, ctx, **_):
     files = [params["img"]] if n == 1 else [f'{params["img"]}-{i}' for i in range(1, n + 1)]
     media = "".join(f'<figure class="case__img">{img_tag(ctx, f, f"{name}: пример работы {i}")}</figure>'
                     for i, f in enumerate(files, 1))
+    ctx.works.append({"name": name, "client": name, "site": params.get("site"),
+                      "images": [case_image(f, f"{name}: пример работы {i}") for i, f in enumerate(files, 1)]})
     parts = "".join(f'<div class="case__part"><h3 class="case__label">{md(t, ctx, True)}</h3>'
                     f'<div class="case__text">{md(b, ctx)}</div></div>' for t, b in split_items(text))
     site = params.get("site")
@@ -504,6 +527,7 @@ def b_tiles(text, params, ctx, **_):
             k, _, v = line.partition(":")
             if k.strip() == "img":
                 img = img_tag(ctx, v.strip(), f"{title}: {' '.join(sub) or title}")
+                ctx.works.append({"name": title, "images": [case_image(v.strip(), f"{title}: {' '.join(sub) or title}")]})
             elif k.strip() == "flags":
                 codes, _, cap = v.partition("|")
                 flags = "".join(f'<img class="flag" src="{ctx.asset("shared/img/cases/flags/" + c + ".webp")}" alt="" '
@@ -948,9 +972,11 @@ def jsonld(page, ctx, pages, manifest):
     cover = page_cover(page["url"], manifest)
     image = f'{SITE_URL.rsplit("/", 1)[0]}/shared/img/{cover["file"]}' if cover else None
     base = {"@context": "https://schema.org", "name": page["h1"], "description": page["description"], "url": url,
-            "inLanguage": "ru"}
+            "inLanguage": "ru", "isPartOf": {"@type": "WebSite", "@id": WEBSITE_ID, "name": "Вадим Паршуков", "url": HOME}}
     if t in ("service", "industry"):
-        d = dict(base, **{"@type": "Service", "serviceType": page.get("crumb"), "provider": PERSON,
+        # inLanguage и isPartOf есть только у CreativeWork, у Service их нет
+        d = dict({k: v for k, v in base.items() if k not in ("inLanguage", "isPartOf")},
+                 **{"@type": "Service", "serviceType": page.get("crumb"), "provider": PERSON,
                           "areaServed": ["RU", "CN", "KZ", "BY"]})
         prices = [int(x.replace(" ", "").replace("\u00a0", "")) for c in page.get("chips") or []
                   for x in re.findall(r"(?:от|около)\s*([\d  ]+)\s*₽", c)]
@@ -976,11 +1002,26 @@ def jsonld(page, ctx, pages, manifest):
         data.append(d)
     elif t == "hub":
         data.append(dict(base, **{"@type": "CollectionPage"}))
+    elif t == "cases":
+        genre = (page.get("crumb") or "").removeprefix("Кейсы: ")
+        works = []
+        for w in ctx.works:
+            cw = {"@type": "CreativeWork", "name": f'{w["name"]}: {genre}' if w.get("client") else w["name"],
+                  "genre": genre, "creator": PERSON_REF, "image": w["images"]}
+            if w.get("client"):
+                cw["about"] = dict({"@type": "Organization", "name": w["client"]}, **({"url": w["site"]} if w.get("site") else {}))
+            works.append(cw)
+        d = dict(base, **{"@type": "CollectionPage", "author": PERSON_REF})
+        if works:
+            d["hasPart"] = works
+        data.append(d)
     else:
         kind = {"/about/": "AboutPage", "/contact/": "ContactPage", "/faq/": "FAQPage"}.get(page["url"], "WebPage")
         d = dict(base, **{"@type": kind})
         if kind == "AboutPage":
             d["mainEntity"] = dict(PERSON, description=page["description"])
+        if page["url"] == "/reviews/":
+            d["mainEntity"] = letters_list(manifest)
         if kind == "FAQPage":
             d = None  # FAQPage соберётся из блока faq ниже
         if d:
@@ -990,6 +1031,47 @@ def jsonld(page, ctx, pages, manifest):
             {"@type": "Question", "name": strip_md(q), "acceptedAnswer": {"@type": "Answer", "text": strip_md(a)}}
             for q, a in page["faq"]]})
     return "\n".join(f'  <script type="application/ld+json">{json.dumps(d, ensure_ascii=False)}</script>' for d in data)
+
+
+def letters_list(manifest):
+    """Рекомендательные письма как Review без оценки: в письмах нет звёзд, выдумывать их нельзя"""
+    items = []
+    for im in [im for im in manifest if "/reviews/" in im.get("pages", [])]:
+        key = re.sub(r"^.*letter-|\.webp$", "", im["file"])
+        if key in LETTER_PEOPLE:
+            author = {"@type": "Person", "name": LETTER_PEOPLE[key]}
+        elif key in LETTER_AUTHORS:
+            author = {"@type": "Organization", "name": LETTER_AUTHORS[key]}
+        else:
+            continue
+        items.append({"@type": "Review", "name": im["alt"], "author": author, "itemReviewed": PERSON_REF,
+                      "image": {"@type": "ImageObject", "contentUrl": f'{ORIGIN}/shared/img/{im["file"]}',
+                                "width": im["w"], "height": im["h"], "caption": im["alt"]}})
+    return {"@type": "ItemList", "name": "Рекомендательные письма", "numberOfItems": len(items),
+            "itemListElement": [{"@type": "ListItem", "position": i, "item": r} for i, r in enumerate(items, 1)]}
+
+
+def home_schema():
+    """WebSite + ProfessionalService + Person для главной (вставляется между маркерами schema:start/end)"""
+    offers = [("Фирменный стиль", 30000), ("Сайты и IT-разработка", 80000), ("3D-визуализация", 30000),
+              ("Комплексная работа под ключ", 150000)]
+    graph = [
+        {"@type": "WebSite", "@id": WEBSITE_ID, "url": HOME, "name": "Вадим Паршуков", "inLanguage": "ru",
+         "publisher": {"@id": PERSON_ID}},
+        {"@type": "ProfessionalService", "@id": BUSINESS_ID, "name": "Вадим Паршуков", "url": HOME,
+         "description": "Комплексный B2B-дизайн для производственных и экспортных компаний: фирменный стиль, сайты, "
+                        "упаковка, 3D-визуализация.",
+         "image": ORIGIN + "/shared/img/og.png", "logo": ORIGIN + "/apple-touch-icon.png", "email": EMAIL,
+         "areaServed": ["RU", "CN", "KZ", "BY"], "taxID": "540310719242", "priceRange": "от 30 000 ₽",
+         "founder": {"@id": PERSON_ID}, "sameAs": PERSON["sameAs"],
+         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Услуги", "itemListElement": [
+             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n},
+              "priceSpecification": {"@type": "PriceSpecification", "minPrice": p, "priceCurrency": "RUB"}}
+             for n, p in offers]}},
+        dict(PERSON, worksFor={"@id": BUSINESS_ID}),
+    ]
+    body = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=1)
+    return f'<!-- schema:start -->\n  <script type="application/ld+json">\n{body}\n  </script>\n  <!-- schema:end -->'
 
 
 def strip_md(s):
@@ -1080,6 +1162,11 @@ def update_home(pages):
     h = re.sub(r'<div class="aside-card">\s*<p class="aside-card__title">Хотите сначала прикинуть бюджет\?</p>.*?</div>\n',
                lambda m: brief, h, count=1, flags=re.S)
     h = h.replace('href="privacy.html"', f'href="{ctx.rel("/privacy-policy/")}"')
+    if "<!-- schema:start -->" in h:
+        h = re.sub(r"<!-- schema:start -->.*?<!-- schema:end -->", lambda m: home_schema(), h, count=1, flags=re.S)
+    else:  # первый запуск: заменить ручной блок ProfessionalService
+        h = re.sub(r'<script type="application/ld\+json">\s*\{\s*"@context": "https://schema.org",\s*"@type": "ProfessionalService".*?</script>',
+                   lambda m: home_schema(), h, count=1, flags=re.S)
     if "v3-pages.css" not in h:
         h = h.replace('<link rel="stylesheet" href="../shared/css/v3.css">',
                       '<link rel="stylesheet" href="../shared/css/v3.css">\n  <link rel="stylesheet" href="../shared/css/v3-pages.css">')
