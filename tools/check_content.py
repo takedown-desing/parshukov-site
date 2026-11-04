@@ -3,6 +3,7 @@
 
 python3 tools/check_content.py                  # опубликованные страницы (LIVE в pages.py)
 python3 tools/check_content.py about.md faq.md  # выборочно
+python3 tools/check_content.py --stage          # весь полигон (STAGE)
 """
 import re
 import sys
@@ -13,7 +14,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "v3"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pages import URLS, LIVE  # noqa: E402
+from pages import URLS, LIVE, STAGE, TOPIC  # noqa: E402
 
 TYPES = {"service", "hub", "case", "cases", "industry", "article", "page"}
 BLOCKS = {"button", "cards", "steps", "prices", "facts", "faq", "links", "note", "cta", "gallery", "calculator", "form", "sitemap",
@@ -53,8 +54,10 @@ def check(path):
         warns.append(f"title {len(t)} знаков")
     if not 110 <= len(d) <= 175:
         warns.append(f"description {len(d)} знаков")
+    # боевые страницы ссылаются только на боевые, полигонные на весь полигон
+    allowed = LIVE if meta.get("url") in LIVE else STAGE
     for u in meta.get("related") or []:
-        if u not in LIVE:
+        if u not in allowed:
             errs.append(f"related {u} не из списка")
     if "—" in text:
         errs.append(f"длинное тире: {text.count('—')} шт.")
@@ -68,7 +71,7 @@ def check(path):
     for mm in re.finditer(r"\]\(([^)\s]+)\)", body):
         u = mm.group(1)
         if u.startswith("/"):
-            if u.split("#")[0] not in LIVE:
+            if u.split("#")[0] not in allowed:
                 errs.append(f"ссылка на неопубликованный URL {u}")
         elif not u.startswith("https://"):
             errs.append(f"внешняя ссылка {u}")
@@ -102,6 +105,8 @@ def check(path):
     words = len(re.findall(r"[А-Яа-яЁёA-Za-z]{2,}", body))
     lim = {"service": (900, 1700), "hub": (500, 1200), "industry": (650, 1300), "case": (400, 1000), "cases": (150, 1500),
            "article": (1500, 2900), "page": (200, 1000)}.get(meta.get("type"), (0, 99999))
+    if meta.get("url") in TOPIC:
+        lim = (550, 1300)
     if not lim[0] <= words <= lim[1]:
         warns.append(f"объём {words} слов, ожидается {lim[0]}–{lim[1]}")
     if meta.get("type") in ("service", "industry"):
@@ -118,8 +123,10 @@ def url_of(path):
 
 
 def main():
-    files = [CONTENT / a for a in sys.argv[1:]] or sorted(
-        p for p in CONTENT.glob("*.md") if not p.name.startswith("_") and url_of(p) in LIVE)
+    args = [a for a in sys.argv[1:] if a != "--stage"]
+    scope = STAGE if "--stage" in sys.argv[1:] else LIVE
+    files = [CONTENT / a for a in args] or sorted(
+        p for p in CONTENT.glob("*.md") if not p.name.startswith("_") and url_of(p) in scope)
     bad = 0
     for p in files:
         errs, warns = check(p)

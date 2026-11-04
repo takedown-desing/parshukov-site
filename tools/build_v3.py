@@ -613,6 +613,14 @@ def b_form(text, params, ctx, **_):
     return lead_form(ctx, brief=ctx.url == "/brief/")
 
 
+def visible_parent(url, pages):
+    """Ближайший предок, который есть в собираемом наборе (или "/")."""
+    u = BY_URL[url][2] if url in BY_URL else None
+    while u and u != "/" and u not in pages:
+        u = BY_URL[u][2] if u in BY_URL else None
+    return u
+
+
 def b_sitemap(text, params, ctx, pages, **_):
     out = []
     for title, f in SITEMAP_GROUPS:
@@ -621,7 +629,7 @@ def b_sitemap(text, params, ctx, pages, **_):
             if not f(url) or (url != "/" and url not in pages):
                 continue
             name = FALLBACK_NAMES.get(url) or pages[url].get("h1")
-            cls = ' class="smap__sub"' if parent not in ("/", None) else ""
+            cls = ' class="smap__sub"' if visible_parent(url, pages) not in ("/", None) else ""
             items.append(f'<li{cls}><a href="{ctx.rel(url)}">{esc(name)}</a></li>')
         if items:
             out.append(f'<div class="smap__group"><h2 class="smap__h">{esc(title)}</h2><ul>{"".join(items)}</ul></div>')
@@ -831,8 +839,10 @@ def footer_html(ctx, seo=False):
 def crumbs_chain(url, pages):
     chain, u = [], url
     while u:
-        name = FALLBACK_NAMES.get(u) or (pages.get(u) or {}).get("crumb") or u
-        chain.append((name, u))
+        # предок, которого нет в собираемом наборе (например /portfolio/ на боевом), пропускаем
+        if u == url or u in pages or u in FALLBACK_NAMES:
+            name = FALLBACK_NAMES.get(u) or (pages.get(u) or {}).get("crumb") or u
+            chain.append((name, u))
         u = BY_URL[u][2] if u in BY_URL else None
     return list(reversed(chain))
 
@@ -1221,7 +1231,7 @@ def main():
     urls = ["/"] + [u for u, _, _ in PAGES if u in pages and u != "/404/"]
     xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u in urls:
-        pr = "1.0" if u == "/" else "0.8" if BY_URL[u][2] == "/" else "0.6"
+        pr = "1.0" if u == "/" else "0.8" if visible_parent(u, pages) == "/" else "0.6"
         xml.append(f"  <url><loc>{SITE_URL}{u}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>")
     xml.append("</urlset>")
     (OUT / "sitemap.xml").write_text("\n".join(xml) + "\n", encoding="utf-8")
