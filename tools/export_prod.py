@@ -86,9 +86,12 @@ def export(site, index, captcha):
 
     sm = DIST / "sitemap.xml"
     sm.write_text(sm.read_text(encoding="utf-8").replace(GH + "/v3", site), encoding="utf-8")
-    # Адреса с GET-параметрами (utm, yclid и т. п.) закрыты, чтобы не плодить дубли страниц
-    # Allow: /shared/ длиннее правила /*?, поэтому CSS и JS с ?v= остаются доступны роботам для отрисовки
-    robots = (f"User-agent: *\nDisallow: /*?\nAllow: /shared/\n\nSitemap: {site}/sitemap.xml\n" if index
+    # Страницы с GET-параметрами (utm, yclid и т. п.) закрыты, чтобы не плодить дубли.
+    # Allow для файлов длиннее правила /*?, поэтому CSS, JS, шрифты и картинки (в том числе с ?v=)
+    # остаются доступны роботам: Google и Яндекс выбирают самое длинное совпавшее правило.
+    assets = ["css", "js", "jpg", "jpeg", "png", "webp", "avif", "gif", "svg", "ico", "woff", "woff2"]
+    allow = "".join(f"Allow: /*.{e}\n" for e in assets)
+    robots = (f"User-agent: *\nDisallow: /*?\n{allow}Allow: /shared/\n\nSitemap: {site}/sitemap.xml\n" if index
               else "User-agent: *\nDisallow: /\n")
     (DIST / "robots.txt").write_text(robots, encoding="utf-8")
 
