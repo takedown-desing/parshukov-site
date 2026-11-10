@@ -446,7 +446,10 @@ def case_image(rel_file, alt):
     """ImageObject для картинки кейса из shared/img/cases"""
     w, h = Image.open(CASE_IMG / f"{rel_file}.webp").size
     return {"@type": "ImageObject", "contentUrl": f"{ORIGIN}/shared/img/cases/{rel_file}.webp", "width": w, "height": h,
-            "caption": alt, "creator": PERSON_REF, "creditText": "Вадим Паршуков"}
+            "caption": alt, "creator": PERSON_REF, "creditText": "Вадим Паршуков",
+            # поля Google «Метаданные изображений»: условия использования в соглашении, разрешение через контакты
+            "copyrightNotice": "© Вадим Паршуков. Права на логотипы и товарные знаки принадлежат их владельцам",
+            "license": f"{ORIGIN}/terms-of-service/", "acquireLicensePage": f"{ORIGIN}/contact/"}
 
 
 def img_tag(ctx, rel_file, alt, cls=""):
